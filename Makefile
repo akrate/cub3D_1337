@@ -6,24 +6,15 @@
 #    By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/13 13:17:26 by melkhatr          #+#    #+#              #
-#    Updated: 2025/12/15 11:46:51 by melkhatr         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/13 13:17:26 by melkhatr          #+#    #+#              #
-#    Updated: 2025/12/15 11:45:46 by melkhatr         ###   ########.fr        #
+#    Updated: 2026/01/09 11:36:29 by melkhatr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
 SRCS = cub3d.c \
+       garbage.c \
        utils_pars.c \
        check_pars.c \
        pars_texture.c \
@@ -36,25 +27,25 @@ SRCS = cub3d.c \
        utils_sets.c \
        gnl.c \
        utils_valid.c \
+       startgame.c \
        clean.c
+LDFLAGS = -L./minilibx-linux/ -lmlx_Linux -lXext -lX11
 
-CC = cc
-RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
+OBJS = $(SRCS:.c=.o)
 
-OBJS = ${SRCS:.c=.o}
-
-all: ${NAME}
+all: $(NAME)
 
 ${NAME}: ${OBJS}
-	@${CC} ${SRCS} -o ${NAME}
+	cd minilibx-linux && ${MAKE}
+	${CC} ${CFLAGS} ${OBJS} ${LDFLAGS} -lm -o ${NAME}
+%.o: %.c cub3d.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@${RM} ${OBJS}
- 
-fclean:
-	@${RM} ${OBJS}
-	@${RM} ${NAME}
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
 
 re: fclean all
 

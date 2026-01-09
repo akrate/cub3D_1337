@@ -42,9 +42,8 @@ char	*get_word(char const *s, char c)
 	len = 0;
 	while (s[len] && s[len] != c)
 		len++;
-	word = malloc(len + 1);
-	if (!word)
-		return (NULL);
+	word = ft_malloc(len + 1, &(set_get_data(NULL)->lst_gc_g));
+
 	i = 0;
 	while (i < len)
 	{
@@ -67,8 +66,6 @@ char	**fill_split(char const *s, char c, char **result)
 		if (*s)
 		{
 			result[i] = get_word(s, c);
-			if (!result[i])
-				return (free_split(result), NULL);
 			i++;
 			while (*s && *s != c)
 				s++;
@@ -86,8 +83,6 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
-	result = malloc(sizeof(char *) * (words + 1));
-	if (!result)
-		return (NULL);
+	result = ft_malloc(sizeof(char *) * (words + 1), &(set_get_data(NULL)->lst_gc_g));
 	return (fill_split(s, c, result));
 }

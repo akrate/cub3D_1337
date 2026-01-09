@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/15 11:34:34 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/09 11:58:15 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,28 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include "./minilibx-linux/mlx.h"
 # include <unistd.h>
 
 # define BUFFER_SIZE 1024
+#define TILE 30
 
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_mlx;
+
+typedef struct s_lst_garbage
+{
+	void					*ptr;
+	struct s_lst_garbage	*next;
+}							t_lst_garbage;
 typedef struct s_texture
 {
 	char		*north;
@@ -64,7 +82,12 @@ typedef struct s_data
 	t_color		ceiling;
 	t_map		map;
 	t_player	player;
+	t_lst_garbage			*lst_gc_g;
+	t_mlx		mlx;
+
 }				t_data;
+
+
 
 int				parse_file(char *filename, t_data *data);
 int				parse_texture(char *line, char **texture);
@@ -110,4 +133,10 @@ int				validate_rgb_string(char *str);
 int				parse_element(char *line, t_data *data);
 
 char			get_char_at(t_data *data, int x, int y);
+t_data	*set_get_data(void *p);
+void	free_garbage(t_lst_garbage **head);
+void	*ft_malloc(size_t size, t_lst_garbage **head);
+void start_game(t_data *data);
+
+
 #endif

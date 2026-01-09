@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:55 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/15 11:35:15 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/09 12:06:44 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	process_player_cell(t_data *data, int x, int y)
 	data->player.pos_x = x + 0.5;
 	data->player.pos_y = y + 0.5;
 	set_player_direction(data, data->map.grid[y][x]);
-	data->map.grid[y][x] = '0';
+	data->map.grid[y][x] = 'E';
 	if (!check_position_walls(data, x, y))
 		return (0);
 	return (1);

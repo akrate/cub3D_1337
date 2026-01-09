@@ -41,9 +41,7 @@ char	*ft_strdup(const char *s)
 
 	if (!s)
 		return (NULL);
-	dup = malloc(ft_strlen(s) + 1);
-	if (!dup)
-		return (NULL);
+	dup = ft_malloc(ft_strlen(s) + 1, &(set_get_data(NULL)->lst_gc_g));
 	i = 0;
 	while (s[i])
 	{
@@ -75,9 +73,7 @@ char	*ft_strtrim(char *s)
 	end = ft_strlen(s) - 1;
 	while (end > start && ft_isspace(s[end]))
 		end--;
-	trimmed = malloc(end - start + 2);
-	if (!trimmed)
-		return (NULL);
+	trimmed = ft_malloc(end - start + 2, &(set_get_data(NULL)->lst_gc_g));
 	i = 0;
 	while (start <= end)
 		trimmed[i++] = s[start++];

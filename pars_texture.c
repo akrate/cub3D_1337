@@ -47,9 +47,7 @@ static char	*extract_path(char *str)
 		len++;
 	if (len == 0)
 		return (NULL);
-	path = malloc(len + 1);
-	if (!path)
-		return (NULL);
+	path = ft_malloc(len + 1, &(set_get_data(NULL)->lst_gc_g));
 	len = 0;
 	while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
 		path[len++] = str[i++];
@@ -87,12 +85,12 @@ int	parse_texture(char *line, char **texture)
 		return (print_error("Invalid texture path format"), 0);
 	path = extract_path(line);
 	if (!path || path[0] == '\0')
-		return (free(path), print_error("Empty texture path"), 0);
+		return (print_error("Empty texture path"), 0);
 	if (has_trailing_content(line, path))
-		return (free(path), print_error("Invalid content after texture"), 0);
+		return (print_error("Invalid content after texture"), 0);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (free(path), print_error("Cannot open texture file"), 0);
+		return (print_error("Cannot open texture file"), 0);
 	close(fd);
 	*texture = path;
 	return (1);
@@ -108,17 +106,15 @@ int	parse_color(char *line, t_color *color)
 		return (print_error("Duplicate color"), 0);
 	trimmed = ft_strtrim(line);
 	if (!trimmed || trimmed[0] == '\0')
-		return (free(trimmed), print_error("Empty color"), 0);
+		return (print_error("Empty color"), 0);
 	if (!validate_rgb_string(trimmed))
 	{
-		free(trimmed);
+		//free(trimmed);
 		return (print_error("Invalid color format"), 0);
 	}
 	rgb = ft_split(trimmed, ',');
-	free(trimmed);
-	if (!rgb)
-		return (print_error("Memory allocation failed"), 0);
+	//free(trimmed);
 	ret = parse_rgb_values(rgb, color);
-	free_split(rgb);
+	// free_split(rgb);
 	return (ret);
 }

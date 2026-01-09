@@ -46,12 +46,9 @@ int	add_map_line(t_data *data, char *line)
 	if (len > data->map.width)
 		data->map.width = len;
 	new_map = realloc_map(data->map.grid, data->map.height + 2);
-	if (!new_map)
-		return (print_error("Memory allocation failed"), 0);
+;
 	data->map.grid = new_map;
-	map_line = malloc(len + 1);
-	if (!map_line)
-		return (print_error("Memory allocation failed"), 0);
+	map_line = ft_malloc(len + 1, &(set_get_data(NULL)->lst_gc_g));
 	copy_line_to_map(line, map_line, len);
 	data->map.grid[data->map.height] = map_line;
 	data->map.grid[data->map.height + 1] = NULL;
@@ -66,13 +63,13 @@ int	handle_map_line(t_data *data, char *line, int *map_started)
 		*map_started = 1;
 		if (!add_map_line(data, line))
 		{
-			free(line);
+			//free(line);
 			return (0);
 		}
 	}
 	else if (*map_started && line[0] != '\n' && line[0] != '\0')
 	{
-		free(line);
+		//free(line);
 		print_error("Invalid character in map");
 		return (0);
 	}
@@ -90,7 +87,6 @@ int	parse_map(int fd, t_data *data)
 	{
 		if (!handle_map_line(data, line, &map_started))
 			return (0);
-		free(line);
 		line = get_next_line(fd);
 	}
 	if (data->map.height == 0)

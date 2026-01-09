@@ -28,6 +28,8 @@ void	init_data(t_data *data)
 	data->map.width = 0;
 	data->map.height = 0;
 	data->map.player_count = 0;
+	data->lst_gc_g = NULL;
+	set_get_data(data);
 }
 
 char	**realloc_map(char **map, int new_size)
@@ -35,9 +37,7 @@ char	**realloc_map(char **map, int new_size)
 	char	**new_map;
 	int		i;
 
-	new_map = malloc(sizeof(char *) * (new_size + 1));
-	if (!new_map)
-		return (NULL);
+	new_map = ft_malloc(sizeof(char *) * (new_size + 1), &(set_get_data(NULL)->lst_gc_g));
 	i = 0;
 	while (i < new_size - 1 && map && map[i])
 	{
@@ -45,7 +45,5 @@ char	**realloc_map(char **map, int new_size)
 		i++;
 	}
 	new_map[i] = NULL;
-	if (map)
-		free(map);
 	return (new_map);
 }

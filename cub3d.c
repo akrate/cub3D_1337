@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:18:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/15 11:30:42 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/09 11:28:39 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ int	parse_element(char *line, t_data *data)
 
 	trimmed = ft_strtrim(line);
 	if (!trimmed || trimmed[0] == '\0' || trimmed[0] == '\n')
-		return (free(trimmed), 1);
+		return (1);
 	ret = parse_texture_element(trimmed, data);
 	if (ret != -2)
-		return (free(trimmed), ret);
+		return (ret);
 	ret = parse_color_element(trimmed, data);
 	if (ret != -2)
-		return (free(trimmed), ret);
+		return (ret);
 	if (trimmed[0] == '1' || trimmed[0] == '0' || trimmed[0] == ' ')
-		return (free(trimmed), -1);
-	return (free(trimmed), print_error("Invalid line in file"), 0);
+		return (-1);
+	return (print_error("Invalid line in file"), 0);
 }
 
 int	parse_file(char *filename, t_data *data)
@@ -70,7 +70,7 @@ int	parse_file(char *filename, t_data *data)
 		if (!line)
 			return (close(fd), print_error("Missing elements"), 0);
 		ret = parse_element(line, data);
-		free(line);
+		//free(line);
 		if (ret == 0)
 			return (close(fd), 0);
 	}
@@ -93,15 +93,18 @@ int	main(int argc, char **argv)
 	init_data(&data);
 	if (!parse_file(argv[1], &data))
 	{
-		free_data(&data);
+		free_garbage(&data.lst_gc_g);
 		return (1);
 	}
 	if (!validate_map(&data))
 	{
-		free_data(&data);
+		free_garbage(&data.lst_gc_g);
 		return (1);
 	}
 	printf("Map parsed successfully!\n");
-	free_data(&data);
+	start_game(&data);
+	// free_data(&data);
+	free_garbage(&data.lst_gc_g);
 	return (0);
 }
+///mlx window (,,,)

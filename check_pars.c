@@ -45,7 +45,7 @@ int	skip_to_map(int fd, t_data *data)
 		if (!line)
 			return (print_error("No map found"), 0);
 		ret = parse_element(line, data);
-		free(line);
+		//free(line);
 		if (ret == 0)
 			return (0);
 		if (ret == -1)

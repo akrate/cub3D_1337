@@ -28,10 +28,10 @@ void	free_split(char **split)
 	i = 0;
 	while (split[i])
 	{
-		free(split[i]);
+		//free(split[i]);
 		i++;
 	}
-	free(split);
+	//free(split);
 }
 
 void	free_map(t_map *map)
@@ -43,10 +43,10 @@ void	free_map(t_map *map)
 	i = 0;
 	while (i < map->height && map->grid[i])
 	{
-		free(map->grid[i]);
+		//free(map->grid[i]);
 		i++;
 	}
-	free(map->grid);
+	//free(map->grid);
 	map->grid = NULL;
 }
 
@@ -54,22 +54,22 @@ void	free_textures(t_texture *textures)
 {
 	if (textures->north)
 	{
-		free(textures->north);
+		//free(textures->north);
 		textures->north = NULL;
 	}
 	if (textures->south)
 	{
-		free(textures->south);
+		//free(textures->south);
 		textures->south = NULL;
 	}
 	if (textures->east)
 	{
-		free(textures->east);
+		//free(textures->east);
 		textures->east = NULL;
 	}
 	if (textures->west)
 	{
-		free(textures->west);
+		//free(textures->west);
 		textures->west = NULL;
 	}
 }
