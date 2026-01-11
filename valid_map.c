@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:55 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 10:00:00 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/11 10:05:52 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	process_player_cell(t_data *data, int x, int y)
 {
 	data->map.player_count++;
-	data->player.pos_x = x + 0.5;
-	data->player.pos_y = y + 0.5;
+	data->player.pos_x = (double)x + 0.4;
+	data->player.pos_y = (double)y + 0.4;
 	set_player_direction(data, data->map.grid[y][x]);
 	// Don't replace yet: data->map.grid[y][x] = 'E';
 	if (!check_position_walls(data, x, y))
