@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:32:14 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/15 11:34:50 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/11 09:43:50 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,9 @@ int	validate_rgb_string(char *str)
 		i++;
 	}
 	return (comma_count == 2);
+}
+int is_walkable(char c)
+{
+    return (c == '0' || c == 'N' || c == 'S'
+         || c == 'E' || c == 'W');
 }

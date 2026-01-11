@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/09 11:58:15 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/11 09:56:18 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int				is_map_line(char *line);
 
 void			print_error(char *msg);
 void			free_data(t_data *data);
+int is_walkable(char c);
 void			free_split(char **split);
 
 int				is_valid_char(char c);
@@ -129,6 +130,7 @@ int				skip_to_map(int fd, t_data *data);
 int				check_space_sequence(char *str, int i, int space_count);
 int				validate_rgb_value(int value);
 int				parse_rgb_values(char **rgb, t_color *color);
+int	add_map_line(t_data *data, char *line);
 int				validate_rgb_string(char *str);
 int				parse_element(char *line, t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:20 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/13 15:09:40 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/11 10:00:07 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ int	add_map_line(t_data *data, char *line)
 	if (len > data->map.width)
 		data->map.width = len;
 	new_map = realloc_map(data->map.grid, data->map.height + 2);
-;
 	data->map.grid = new_map;
 	map_line = ft_malloc(len + 1, &(set_get_data(NULL)->lst_gc_g));
 	copy_line_to_map(line, map_line, len);
 	data->map.grid[data->map.height] = map_line;
 	data->map.grid[data->map.height + 1] = NULL;
+	
+	
 	data->map.height++;
 	return (1);
 }
