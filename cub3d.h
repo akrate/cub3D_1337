@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 09:56:18 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:06:09 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <string.h>
 # include "./minilibx-linux/mlx.h"
 # include <unistd.h>
+#include <math.h>
+
 
 # define BUFFER_SIZE 1024
 #define TILE 30

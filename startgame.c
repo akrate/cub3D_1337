@@ -6,12 +6,12 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 11:16:19 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 11:19:24 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:40:58 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <math.h>
+
 
 void	draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 {
@@ -38,7 +38,40 @@ void	draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 		steps--;
 	}
 }
+void	draw_rays(t_data *data)
+{
+	int		i;
+	int		px;
+	int		py;
+	double	cameraX;
+	double	ray_x;
+	double	ray_y;
+	int		len;
 
+	px = data->player.pos_x * TILE;
+	py = data->player.pos_y * TILE;
+	len = 120;
+
+	i = 0;
+	while (i < 300) // عدد rays
+	{
+		cameraX = 2.0 * i / 300.0 - 1.0;
+
+		ray_x = data->player.dir_x
+			+ data->player.plane_x * cameraX;
+		ray_y = data->player.dir_y
+			+ data->player.plane_y * cameraX;
+
+		draw_line(
+			data,
+			px, py,
+			px + ray_x * len,
+			py + ray_y * len,
+			0x00AAAAAA // لون رمادي
+		);
+		i++;
+	}
+}
 void	draw_fov(t_data *data)
 {
 	int	px;
@@ -50,8 +83,8 @@ void	draw_fov(t_data *data)
 	double	right_x;
 	double	right_y;
 
-	px = data->player.pos_x * TILE;
-	py = data->player.pos_y * TILE;
+	px = (data->player.pos_x + 0.1) * TILE;
+	py = (data->player.pos_y + 0.1)  * TILE;
 	len = 120;
 
 	/* 🖤 direction */
@@ -71,7 +104,7 @@ void	draw_fov(t_data *data)
 		px, py,
 		px + left_x * len,
 		py + left_y * len,
-		0x00FF0000
+		0x00000000
 	);
 
 	/* 🔴 right FOV */
@@ -82,7 +115,7 @@ void	draw_fov(t_data *data)
 		px, py,
 		px + right_x * len,
 		py + right_y * len,
-		0x00FF0000
+		0x00000000
 	);
 }
 
@@ -165,6 +198,7 @@ void	render_frame(t_data *data)
 {
 	draw_map_2d(data);
 	draw_fov(data);
+	// draw_rays(data);
 	// mlx_put_image_to_window(
 	// 	data->mlx.mlx,
 	// 	data->mlx.win,
@@ -223,44 +257,77 @@ void	ecs(t_data *game)
 	
 	exit(0);
 }
-int moves(int keycode,t_data *data)
-{
-	double nx = data->player.pos_x;
-    double ny = data->player.pos_y;
+// int moves(int keycode,t_data *data)
+// {
+// 	double nx = data->player.pos_x;
+//     double ny = data->player.pos_y;
 	
-	if (keycode == 119) ny -= 0.1;
-    if (keycode == 115) ny += 0.1;
-    if (keycode == 97) nx -= 0.1;
-    if (keycode == 100) nx += 0.1;
+// 	if (keycode == 119) ny -= 0.1;
+//     if (keycode == 115) ny += 0.1;
+//     if (keycode == 97) nx -= 0.1;
+//     if (keycode == 100) nx += 0.1;
 
 
-    // collision
-    if (data->map.grid[(int)ny][(int)nx] != '1')
-    {
-        data->player.pos_x = nx;
-        data->player.pos_y = ny;
-    }
+//     // collision
+//     if (data->map.grid[(int)ny][(int)nx] != '1')
+//     {
+//         data->player.pos_x = nx;
+//         data->player.pos_y = ny;
+//     }
 
+//     render_frame(data);
+//     return (0);
+// }
+void	move_player(int keycode, t_data *data)
+{
+	double	nx;
+	double	ny;
+	double	speed;
+
+	speed = 0.1;
+	nx = data->player.pos_x;
+	ny = data->player.pos_y;
+
+	if (keycode == 119) // W
+	{
+		nx += data->player.dir_x * speed;
+		ny += data->player.dir_y * speed;
+	}
+	if (keycode == 115) // S
+	{
+		nx -= data->player.dir_x * speed;
+		ny -= data->player.dir_y * speed;
+	}
+	if (keycode == 97) // A
+	{
+		nx -= data->player.plane_x * speed;
+		ny -= data->player.plane_y * speed;
+	}
+	if (keycode == 100) // D
+	{
+		nx += data->player.plane_x * speed;
+		ny += data->player.plane_y * speed;
+	}
+
+	if (data->map.grid[(int)data->player.pos_y][(int)nx] != '1')
+		data->player.pos_x = nx;
+	if (data->map.grid[(int)ny][(int)data->player.pos_x] != '1')
+		data->player.pos_y = ny;
     render_frame(data);
-    return (0);
+
 }
+
 int hook(int keycode,t_data *data)
 {
 	
 	 if (keycode == 65307)
         ecs(data);
     else if (keycode == 119 || keycode == 115 || keycode == 97 || keycode == 100)
-        moves(keycode,data);
+        move_player(keycode,data);
 	else if (keycode == 65361) // ←
 		rotate_player(data, -0.1);
 	else if (keycode == 65363) // →
 		rotate_player(data, 0.1);
-    // else if (keycode == 2 || keycode == 124)
-    //     printf("RIGHT (D / ARROW_RIGHT)");
-    // else if (keycode == 1 || keycode == 125)
-    //     printf("DOWN (S / ARROW_DOWN)");
-    // else if (keycode == 13 || keycode == 126)
-    //     printf("LEFT (A / ARROW_LEFT)");
     else
         printf("%d\n", keycode);
     return (0);
