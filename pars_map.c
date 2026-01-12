@@ -6,7 +6,7 @@
 /*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:20 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 10:00:07 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:03:16 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,19 @@ int	add_map_line(t_data *data, char *line)
 	data->map.height++;
 	return (1);
 }
+int	is_only_spaces(char *line)
+{
+	int	i;
 
+	i = 0;
+	while (line[i] && line[i] != '\n')
+	{
+		if (line[i] != ' ' && line[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 int	handle_map_line(t_data *data, char *line, int *map_started)
 {
 	if (is_map_line(line))
@@ -64,19 +76,19 @@ int	handle_map_line(t_data *data, char *line, int *map_started)
 		*map_started = 1;
 		if (!add_map_line(data, line))
 		{
-			//free(line);
 			return (0);
 		}
 	}
 	else if (*map_started && line[0] != '\n' && line[0] != '\0')
 	{
-		//free(line);
+		if (is_only_spaces(line))
+			return (1);  
+		
 		print_error("Invalid character in map");
 		return (0);
 	}
 	return (1);
 }
-
 int	parse_map(int fd, t_data *data)
 {
 	char	*line;
@@ -86,8 +98,15 @@ int	parse_map(int fd, t_data *data)
 	line = get_next_line(fd);
 	while (line)
 	{
+		if (map_started && is_only_spaces(line))
+		{
+			line = get_next_line(fd);
+			continue;
+		}
+		
 		if (!handle_map_line(data, line, &map_started))
 			return (0);
+			
 		line = get_next_line(fd);
 	}
 	if (data->map.height == 0)

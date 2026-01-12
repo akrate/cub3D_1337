@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:55 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 10:05:52 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:03:48 by melkhatr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,26 @@ int	process_player_cell(t_data *data, int x, int y)
 		return (0);
 	return (1);
 }
-
 int	is_map_line(char *line)
 {
 	int	i;
+	int has_valid_content;
 
 	if (!line || line[0] == '\0' || line[0] == '\n')
 		return (0);
+	
 	i = 0;
+	has_valid_content = 0;
 	while (line[i] && line[i] != '\n')
 	{
 		if (!is_valid_char(line[i]))
 			return (0);
+		if (line[i] == '0' || line[i] == '1' || is_player_char(line[i]))
+			has_valid_content = 1;
 		i++;
 	}
-	return (1);
+	return (has_valid_content);
 }
-
 int	check_position_walls(t_data *data, int x, int y)
 {
 	char	c;
