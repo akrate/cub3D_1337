@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_sets.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:12:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/13 15:13:44 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/13 12:28:08 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	set_east_west(t_data *data, char orientation)
 		data->player.dir_x = -1;
 		data->player.dir_y = 0;
 		data->player.plane_x = 0;
-		data->player.plane_y = -0.66;
+		data->player.plane_y = -1.66;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/12 11:06:09 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/13 12:31:36 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 
 # define BUFFER_SIZE 1024
-#define TILE 30
+#define TILE 32
 
 typedef struct s_mlx
 {
