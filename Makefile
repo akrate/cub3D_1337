@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+         #
+#    By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/13 13:17:26 by melkhatr          #+#    #+#              #
-#    Updated: 2026/01/09 11:36:29 by melkhatr         ###   ########.fr        #
+#    Updated: 2026/01/16 10:41:15 by aoussama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,10 @@ SRCS = cub3d.c \
        gnl.c \
        utils_valid.c \
        startgame.c \
-       clean.c
+       clean.c\
+       tools_start_game/movement.c\
+       tools_start_game/render_frame.c\
+       tools_start_game/utils_frame.c
 LDFLAGS = -L./minilibx-linux/ -lmlx_Linux -lXext -lX11
 
 OBJS = $(SRCS:.c=.o)

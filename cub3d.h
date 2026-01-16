@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/13 12:31:36 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/16 11:22:10 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,15 @@ void	free_garbage(t_lst_garbage **head);
 void	*ft_malloc(size_t size, t_lst_garbage **head);
 void start_game(t_data *data);
 
-
+//////////////////////////////////////////////////////
+int hook(int keycode,t_data *data);
+int	button_x(t_data *game);
+void	render_frame(t_data *data);
+void	draw_square(t_data *data, int x, int y, int color);
+void	draw_player(t_data *data, int x, int y, int color);
+int	ray_hit_wall_step(t_data *data,double dirx,double diry,double *hit_x,double *hit_y);
+void	draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
+void	draw_rays(t_data *data);
+void	draw_map_2d(t_data *data);
+void	draw_fov(t_data *data);
 #endif
