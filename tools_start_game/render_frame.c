@@ -6,12 +6,45 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:27:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/16 11:22:32 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/16 11:35:27 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+// void	draw_rays(t_data *data)
+// {
+// 	int		i;
+// 	int		px;
+// 	int		py;
+// 	double	cameraX;
+// 	double	ray_x;
+// 	double	ray_y;
+// 	int		len;
 
+// 	px = data->player.pos_x * TILE;
+// 	py = data->player.pos_y * TILE;
+// 	len = 120;
+
+// 	i = 0;
+// 	while (i < 300) // عدد rays
+// 	{
+// 		cameraX = 2.0 * i / 300.0 - 1.0;
+
+// 		ray_x = data->player.dir_x
+// 			+ data->player.plane_x * cameraX;
+// 		ray_y = data->player.dir_y
+// 			+ data->player.plane_y * cameraX;
+
+// 		draw_line(
+// 			data,
+// 			px, py,
+// 			px + ray_x * len,
+// 			py + ray_y * len,
+// 			0x00AAAAAA // لون رمادي
+// 		);
+// 		i++;
+// 	}
+// }
 void	draw_rays(t_data *data)
 {
 	int		i;
@@ -29,9 +62,9 @@ void	draw_rays(t_data *data)
 	py_pix = (data->player.pos_y + 0.1) * TILE;
 
 	i = 0;
-	while (i < 600)
+	while (i < 300)
 	{
-		cameraX = 2.0 * i / 1024 - 1.0;
+		cameraX = 2.0 * i / 300.0 - 1.0;
 		rayx = data->player.dir_x + data->player.plane_x * cameraX;
 		rayy = data->player.dir_y + data->player.plane_y * cameraX;
 		
