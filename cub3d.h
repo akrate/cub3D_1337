@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/16 11:22:10 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:36:55 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@
 
 # define BUFFER_SIZE 1024
 #define TILE 32
+#define WIDTH 1024
+#define HEIGHT 768
+
+/* معلومات على hit */
+typedef struct s_hit
+{
+	int		hit;          /* 1 if hit wall */
+	int		side;         /* 0: hit a vertical wall (x-side), 1: horizontal (y-side) */
+	int		map_x;
+	int		map_y;
+	double	perp_dist;    /* distance corrected (no fish-eye) */
+	double	hit_x;        /* hit point in map units */
+	double	hit_y;        /* hit point in map units */
+}	t_hit;
 
 typedef struct s_mlx
 {
@@ -153,4 +167,7 @@ void	draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
 void	draw_rays(t_data *data);
 void	draw_map_2d(t_data *data);
 void	draw_fov(t_data *data);
+
+t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY);
+void	render_3d_walls(t_data *data);
 #endif

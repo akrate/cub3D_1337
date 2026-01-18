@@ -1,0 +1,128 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dda.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/18 13:57:09 by aoussama          #+#    #+#             */
+/*   Updated: 2026/01/18 14:39:05 by aoussama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../cub3d.h"
+
+
+
+/* اعتبر '1' wall و ' ' void */
+static int	is_wall_cell(t_data *data, int my, int mx)
+{
+	if (my < 0 || my >= data->map.height)
+		return (1);
+	if (mx < 0 || mx >= (int)ft_strlen(data->map.grid[my]))
+		return (1);
+	if (data->map.grid[my][mx] == '1' || data->map.grid[my][mx] == ' ')
+		return (1);
+	return (0);
+}
+
+/* DDA cast: رجع hit info */
+t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
+{
+	t_hit	h;
+
+	double	rayPosX = data->player.pos_x;
+	double	rayPosY = data->player.pos_y;
+
+	int		mapX = (int)rayPosX;
+	int		mapY = (int)rayPosY;
+
+	/* deltaDist: شحال ray كيحتاج باش يدوز من gridline ل gridline */
+	// double	deltaDistX = (rayDirX == 0.0) ? 1e30 : fabs(1.0 / rayDirX);
+	// double	deltaDistY = (rayDirY == 0.0) ? 1e30 : fabs(1.0 / rayDirY);
+    double deltaDistX;
+    double deltaDistY;
+    
+    if (rayDirX == 0.0)
+    	deltaDistX = 1e30;
+    else
+    	deltaDistX = fabs(1.0 / rayDirX);
+
+
+    if (rayDirY == 0.0)
+    {
+        
+        deltaDistY = 1e30;
+    }
+    else
+    {
+
+        deltaDistY = fabs(1.0 / rayDirY);
+    }
+
+	int		stepX;
+	int		stepY;
+
+	double	sideDistX;
+	double	sideDistY;
+
+	int		side = 0;
+
+	/* 1) stepX و sideDistX */
+	if (rayDirX < 0)
+	{
+		stepX = -1;
+		sideDistX = (rayPosX - mapX) * deltaDistX;
+	}
+	else
+	{
+		stepX = 1;
+		sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
+	}
+
+	/* 2) stepY و sideDistY */
+	if (rayDirY < 0)
+	{
+		stepY = -1;
+		sideDistY = (rayPosY - mapY) * deltaDistY;
+	}
+	else
+	{
+		stepY = 1;
+		sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
+	}
+
+	/* 3) Loop DDA: كنقارن أقرب حد X ولا Y ونمشي ليه */
+	while (!is_wall_cell(data, mapY, mapX))
+	{
+		if (sideDistX < sideDistY)
+		{
+			sideDistX += deltaDistX;
+			mapX += stepX;
+			side = 0; /* ضربنا x-side */
+		}
+		else
+		{
+			sideDistY += deltaDistY;
+			mapY += stepY;
+			side = 1; /* ضربنا y-side */
+		}
+		/* إذا دخلنا فـ wall/void، loop غادي يوقف فالشرط */
+	}
+
+	/* 4) حساب perp distance (تصحيح fish-eye) */
+	if (side == 0)
+		h.perp_dist = (mapX - rayPosX + (1 - stepX) / 2.0) / rayDirX;
+	else
+		h.perp_dist = (mapY - rayPosY + (1 - stepY) / 2.0) / rayDirY;
+
+	/* 5) hit point (فين ضرب بالضبط) */
+	h.hit_x = rayPosX + rayDirX * h.perp_dist;
+	h.hit_y = rayPosY + rayDirY * h.perp_dist;
+
+	h.hit = 1;
+	h.side = side;
+	h.map_x = mapX;
+	h.map_y = mapY;
+	return (h);
+}
