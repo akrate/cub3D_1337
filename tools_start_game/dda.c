@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:57:09 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/18 14:39:05 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 09:31:26 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 	int		mapY = (int)rayPosY;
 
 	/* deltaDist: شحال ray كيحتاج باش يدوز من gridline ل gridline */
-	// double	deltaDistX = (rayDirX == 0.0) ? 1e30 : fabs(1.0 / rayDirX);
-	// double	deltaDistY = (rayDirY == 0.0) ? 1e30 : fabs(1.0 / rayDirY);
     double deltaDistX;
     double deltaDistY;
     
     if (rayDirX == 0.0)
-    	deltaDistX = 1e30;
+    	deltaDistX = 300;
     else
     	deltaDistX = fabs(1.0 / rayDirX);
 
@@ -52,7 +50,7 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
     if (rayDirY == 0.0)
     {
         
-        deltaDistY = 1e30;
+        deltaDistY = 300;
     }
     else
     {

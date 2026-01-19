@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:18:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/13 11:44:46 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:03:41 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static int	parse_texture_element(char *trimmed, t_data *data)
 {
 	if (trimmed[0] == 'N' && trimmed[1] == 'O' && trimmed[2] == ' ')
-		return (parse_texture(trimmed + 3, &data->textures.north));
+		return (parse_texture(trimmed + 3, &data->textures.no));
 	else if (trimmed[0] == 'S' && trimmed[1] == 'O' && trimmed[2] == ' ')
-		return (parse_texture(trimmed + 3, &data->textures.south));
+		return (parse_texture(trimmed + 3, &data->textures.so));
 	else if (trimmed[0] == 'E' && trimmed[1] == 'A' && trimmed[2] == ' ')
-		return (parse_texture(trimmed + 3, &data->textures.east));
+		return (parse_texture(trimmed + 3, &data->textures.ea));
 	else if (trimmed[0] == 'W' && trimmed[1] == 'E' && trimmed[2] == ' ')
-		return (parse_texture(trimmed + 3, &data->textures.west));
+		return (parse_texture(trimmed + 3, &data->textures.we));
 	return (-2);
 }
 

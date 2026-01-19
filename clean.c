@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:22:43 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/13 14:58:45 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:41:55 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,34 +50,23 @@ void	free_map(t_map *map)
 	map->grid = NULL;
 }
 
-void	free_textures(t_texture *textures)
+void	free_textures(t_data *data)
 {
-	if (textures->north)
-	{
-		//free(textures->north);
-		textures->north = NULL;
-	}
-	if (textures->south)
-	{
-		//free(textures->south);
-		textures->south = NULL;
-	}
-	if (textures->east)
-	{
-		//free(textures->east);
-		textures->east = NULL;
-	}
-	if (textures->west)
-	{
-		//free(textures->west);
-		textures->west = NULL;
-	}
+	if (data->tex.no.img)
+		mlx_destroy_image(data->mlx.mlx, data->tex.no.img);
+	if (data->tex.so.img)
+		mlx_destroy_image(data->mlx.mlx, data->tex.so.img);
+	if (data->tex.we.img)
+		mlx_destroy_image(data->mlx.mlx, data->tex.we.img);
+	if (data->tex.ea.img)
+		mlx_destroy_image(data->mlx.mlx, data->tex.ea.img);
 }
+
 
 void	free_data(t_data *data)
 {
 	if (!data)
 		return ;
-	free_textures(&data->textures);
+	free_textures(data);
 	free_map(&data->map);
 }

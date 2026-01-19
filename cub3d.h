@@ -6,39 +6,44 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/18 14:36:55 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:36:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+/* ================== INCLUDES ================== */
+
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include "./minilibx-linux/mlx.h"
 # include <unistd.h>
-#include <math.h>
+# include "./minilibx-linux/mlx.h"
 
+/* ================== DEFINES ================== */
 
 # define BUFFER_SIZE 1024
-#define TILE 32
-#define WIDTH 1024
-#define HEIGHT 768
+# define TILE 32
+# define WIDTH 1024
+# define HEIGHT 768
 
-/* معلومات على hit */
+/* ================== HIT INFO (DDA) ================== */
+
 typedef struct s_hit
 {
-	int		hit;          /* 1 if hit wall */
-	int		side;         /* 0: hit a vertical wall (x-side), 1: horizontal (y-side) */
+	int		hit;        /* 1 if hit wall */
+	int		side;       /* 0: vertical wall, 1: horizontal wall */
 	int		map_x;
 	int		map_y;
-	double	perp_dist;    /* distance corrected (no fish-eye) */
-	double	hit_x;        /* hit point in map units */
-	double	hit_y;        /* hit point in map units */
+	double	perp_dist;  /* corrected distance */
+	double	hit_x;      /* exact hit position (map units) */
+	double	hit_y;
 }	t_hit;
+
+/* ================== MLX ================== */
 
 typedef struct s_mlx
 {
@@ -51,59 +56,96 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+/* ================== GARBAGE COLLECTOR ================== */
+
 typedef struct s_lst_garbage
 {
 	void					*ptr;
 	struct s_lst_garbage	*next;
-}							t_lst_garbage;
-typedef struct s_texture
+}	t_lst_garbage;
+
+/* ================== TEXTURE PATHS (from .cub) ================== */
+
+typedef struct s_tex_paths
 {
-	char		*north;
-	char		*south;
-	char		*east;
-	char		*west;
-}				t_texture;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+}	t_tex_paths;
+
+/* ================== IMAGE TEXTURE (MLX IMAGE) ================== */
+
+typedef struct s_img_tex
+{
+	void	*img;
+	char	*addr;
+	int		w;
+	int		h;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_img_tex;
+
+/* ================== TEXTURE PACK ================== */
+
+typedef struct s_texpack
+{
+	t_img_tex	no;
+	t_img_tex	so;
+	t_img_tex	we;
+	t_img_tex	ea;
+}	t_texpack;
+
+/* ================== COLORS ================== */
 
 typedef struct s_color
 {
-	int			r;
-	int			g;
-	int			b;
-	int			hex;
-}				t_color;
+	int	r;
+	int	g;
+	int	b;
+	int	hex;
+}	t_color;
+
+/* ================== PLAYER ================== */
 
 typedef struct s_player
 {
-	double		pos_x;
-	double		pos_y;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
-	char		orientation;
-}				t_player;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	char	orientation;
+}	t_player;
+
+/* ================== MAP ================== */
 
 typedef struct s_map
 {
-	char		**grid;
-	int			width;
-	int			height;
-	int			player_count;
-}				t_map;
+	char	**grid;
+	int		width;
+	int		height;
+	int		player_count;
+}	t_map;
+
+/* ================== GLOBAL DATA ================== */
 
 typedef struct s_data
 {
-	t_texture	textures;
+	t_tex_paths	textures;   /* paths from parser */
+	t_texpack	tex;        /* loaded textures */
+
 	t_color		floor;
 	t_color		ceiling;
+
 	t_map		map;
 	t_player	player;
-	t_lst_garbage			*lst_gc_g;
-	t_mlx		mlx;
 
-}				t_data;
-
-
+	t_lst_garbage	*lst_gc_g;
+	t_mlx			mlx;
+}	t_data;
 
 int				parse_file(char *filename, t_data *data);
 int				parse_texture(char *line, char **texture);
@@ -152,10 +194,11 @@ int				parse_element(char *line, t_data *data);
 
 char			get_char_at(t_data *data, int x, int y);
 t_data	*set_get_data(void *p);
+int	get_tex_color(t_img_tex *tex, int x, int y);
 void	free_garbage(t_lst_garbage **head);
 void	*ft_malloc(size_t size, t_lst_garbage **head);
 void start_game(t_data *data);
-
+void	free_textures(t_data *data);
 //////////////////////////////////////////////////////
 int hook(int keycode,t_data *data);
 int	button_x(t_data *game);
@@ -167,7 +210,10 @@ void	draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
 void	draw_rays(t_data *data);
 void	draw_map_2d(t_data *data);
 void	draw_fov(t_data *data);
-
+void	load_texture(t_data *data, t_img_tex *tex, char *path);
+void	load_all_textures(t_data *data);
+t_img_tex	*get_wall_texture(t_data *data, t_hit h,
+								double rayDirX, double rayDirY);
 t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY);
 void	render_3d_walls(t_data *data);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initial.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:05:21 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/13 15:09:28 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:03:52 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	init_data(t_data *data)
 {
-	data->textures.north = NULL;
-	data->textures.south = NULL;
-	data->textures.east = NULL;
-	data->textures.west = NULL;
+	data->textures.no = NULL;
+	data->textures.so = NULL;
+	data->textures.ea = NULL;
+	data->textures.we = NULL;
 	data->floor.r = -1;
 	data->floor.g = -1;
 	data->floor.b = -1;

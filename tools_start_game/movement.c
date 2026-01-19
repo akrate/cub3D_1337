@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:35:45 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/16 10:42:26 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 11:15:26 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,21 @@
 int	button_x(t_data *game)
 {
 	free_garbage(&set_get_data(NULL)->lst_gc_g);
-	if (game->mlx.mlx && game->mlx.win)
-		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	free_textures(game);
 	if (game->mlx.img)
     	mlx_destroy_image(game->mlx.mlx, game->mlx.img);
+	if (game->mlx.mlx && game->mlx.win)
+		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	
 	if (game->mlx.mlx)
 	{
 		mlx_destroy_display(game->mlx.mlx);
 		free(game->mlx.mlx);
 	}
+	
 	exit(0);
 }
+
 static void	rotate_player(t_data *data, double rot)
 {
 	double	old_dir_x;
@@ -109,10 +113,12 @@ static void	move_player(int keycode, t_data *data)
 static void	ecs(t_data *game)
 {
 	free_garbage(&set_get_data(NULL)->lst_gc_g);
-	if (game->mlx.mlx && game->mlx.win)
-		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	free_textures(game);
 	if (game->mlx.img)
     	mlx_destroy_image(game->mlx.mlx, game->mlx.img);
+	if (game->mlx.mlx && game->mlx.win)
+		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	
 	if (game->mlx.mlx)
 	{
 		mlx_destroy_display(game->mlx.mlx);

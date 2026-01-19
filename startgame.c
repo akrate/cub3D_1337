@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 11:16:19 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/16 11:22:02 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:11:35 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	init_mlx(t_data *data)
 void start_game(t_data *data)
 {
     init_mlx(data);
+		load_all_textures(data);   // ⭐ جديد
     render_frame(data);
 	mlx_hook(data->mlx.win,2,1,hook,data);
 	mlx_hook(data->mlx.win, 17, 0, button_x, data);

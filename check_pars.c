@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_pars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:28:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 09:55:56 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/19 10:03:00 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	check_file_extension(char *filename)
 
 int	all_elements_parsed(t_data *data)
 {
-	if (!data->textures.north || !data->textures.south || !data->textures.east
-		|| !data->textures.west)
+	if (!data->textures.no || !data->textures.so || !data->textures.ea
+		|| !data->textures.we)
 		return (0);
 	if (data->floor.r == -1 || data->ceiling.r == -1)
 		return (0);
