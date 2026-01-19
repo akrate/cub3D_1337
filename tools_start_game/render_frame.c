@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:27:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/19 10:37:57 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 12:04:12 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,31 @@ void	put_pixel_to_img(t_mlx *mlx, int x, int y, int color)
 
 	dst = mlx->addr + (y * mlx->line_len + x * (mlx->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+void	draw_crosshair(t_data *data)
+{
+	int	cx;
+	int	cy;
+	int	i;
+
+	cx = WIDTH / 2;
+	cy = HEIGHT / 2;
+
+	/* خط أفقي */
+	i = -6;
+	while (i <= 6)
+	{
+		put_pixel_to_img(&data->mlx, cx + i, cy, 0x00FF0000);
+		i++;
+	}
+
+	/* خط عمودي */
+	i = -6;
+	while (i <= 6)
+	{
+		put_pixel_to_img(&data->mlx, cx, cy + i, 0x00FF0000);
+		i++;
+	}
 }
 
 void	render_3d_walls(t_data *data)
@@ -383,12 +408,13 @@ void	draw_map_2d(t_data *data)
 // void	render_frame(t_data *data)
 // {
 // 	mlx_clear_window(data->mlx.mlx, data->mlx.win);
-// 	// draw_map_2d(data);
-//     // draw_fov(data);
-// 	render_3d_walls(data);
+// 	draw_map_2d(data);
+//     draw_fov(data);
+// 	// render_3d_walls(data);
 // 	// draw_rays_dda(data);
 
 // }
+
 void	render_frame(t_data *data)
 {
 	/* destroy old image */
@@ -411,7 +437,7 @@ void	render_frame(t_data *data)
 
 	/* render 3D into image */
 	render_3d_walls(data);
-
+	draw_crosshair(data);
 	/* put image to window */
 	mlx_put_image_to_window(
 		data->mlx.mlx,

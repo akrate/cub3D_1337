@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:57:09 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/19 09:31:26 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 12:08:56 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
     double deltaDistY;
     
     if (rayDirX == 0.0)
-    	deltaDistX = 300;
+    	deltaDistX = 500;
     else
     	deltaDistX = fabs(1.0 / rayDirX);
 
@@ -50,7 +50,7 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
     if (rayDirY == 0.0)
     {
         
-        deltaDistY = 300;
+        deltaDistY = 500;
     }
     else
     {

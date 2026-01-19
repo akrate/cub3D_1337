@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:18:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/19 10:03:41 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 11:49:28 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	parse_file(char *filename, t_data *data)
 		if (!line)
 			return (close(fd), print_error("Missing elements"), 0);
 		ret = parse_element(line, data);
-		//free(line);
 		if (ret == 0)
 			return (close(fd), 0);
 	}

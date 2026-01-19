@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:35:45 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/19 11:15:26 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/19 11:54:54 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	rotate_player(t_data *data, double rot)
 	data->player.plane_y = old_plane_x * sin(rot) + data->player.plane_y * cos(rot);
 	printf("old_plane_x == %f\nplane_x == %f\nplane_y == %f\n",old_plane_x,data->player.plane_x,data->player.plane_y);
 
-	render_frame(data);
+	// render_frame(data);
 }
 static void	move_player(int keycode, t_data *data)
 {
@@ -60,55 +60,27 @@ static void	move_player(int keycode, t_data *data)
 	{
 		nx += data->player.dir_x * speed;
 		ny += data->player.dir_y * speed;
-		printf("pos_x == %f\npos_y == %f\n\n",data->player.pos_x,data->player.pos_y);
-
-		printf("dir_x == %f\ndir_y == %f\n\n",data->player.dir_x,data->player.dir_y);
-		printf("nx == %f\nny == %f\n\n",nx,ny);
-		printf("-----------------------------------------------\n");
-
 	}
 	if (keycode == 115) // S
 	{
 		nx -= data->player.dir_x * speed;
 		ny -= data->player.dir_y * speed;
-		printf("pos_x == %f\npos_y == %f\n\n",data->player.pos_x,data->player.pos_y);
-
-		printf("dir_x == %f\ndir_y == %f\n\n",data->player.dir_x,data->player.dir_y);
-		printf("nx == %f\nny == %f\n\n",nx,ny);
-
-		printf("-----------------------------------------------\n");
-
 	}
 	if (keycode == 97) // A
 	{
 		nx -= data->player.plane_x * speed;
 		ny -= data->player.plane_y * speed;
-		printf("pos_x == %f\npos_y == %f\n\n",data->player.pos_x,data->player.pos_y);
-
-		printf("dir_x == %f\ndir_y == %f\n\n",data->player.dir_x,data->player.dir_y);
-		printf("nx == %f\nny == %f\n\n",nx,ny);
-
-		printf("-----------------------------------------------\n");
-
 	}
 	if (keycode == 100) // D
 	{
 		nx += data->player.plane_x * speed;
 		ny += data->player.plane_y * speed;
-		printf("pos_x == %f\npos_y == %f\n\n",data->player.pos_x,data->player.pos_y);
-
-		printf("dir_x == %f\ndir_y == %f\n\n",data->player.dir_x,data->player.dir_y);
-		printf("nx == %f\nny == %f\n\n",nx,ny);
-
-		printf("-----------------------------------------------\n");
 	}
-
 	if (data->map.grid[(int)data->player.pos_y][(int)nx] != '1')
 		data->player.pos_x = nx;
 	if (data->map.grid[(int)ny][(int)data->player.pos_x] != '1')
 		data->player.pos_y = ny;
-    render_frame(data);
-
+    // render_frame(data);
 }
 static void	ecs(t_data *game)
 {
@@ -139,7 +111,7 @@ int hook(int keycode,t_data *data)
 		rotate_player(data, -0.1);
 	else if (keycode == 65363) // →
 		rotate_player(data, 0.1);
-    else
-        printf("%d\n", keycode);
+	render_frame(data);
+	
     return (0);
 }
