@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:35:45 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/19 11:54:54 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:55:00 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	rotate_player(t_data *data, double rot)
 	data->player.plane_y = old_plane_x * sin(rot) + data->player.plane_y * cos(rot);
 	printf("old_plane_x == %f\nplane_x == %f\nplane_y == %f\n",old_plane_x,data->player.plane_x,data->player.plane_y);
 
-	// render_frame(data);
 }
 static void	move_player(int keycode, t_data *data)
 {
@@ -80,7 +79,6 @@ static void	move_player(int keycode, t_data *data)
 		data->player.pos_x = nx;
 	if (data->map.grid[(int)ny][(int)data->player.pos_x] != '1')
 		data->player.pos_y = ny;
-    // render_frame(data);
 }
 static void	ecs(t_data *game)
 {

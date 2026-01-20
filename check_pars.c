@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:28:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/19 10:03:00 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:50:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ int	skip_to_map(int fd, t_data *data)
 		ret = parse_element(line, data);
 		if (ret == 0)
 			return (0);
-		if (ret == -1)  // Map line found!
+		if (ret == -1)
 		{
-			// ADD THIS LINE TO THE MAP BEFORE RETURNING!
+
 			if (!add_map_line(data, line))
 				return (0);
 			return (1);
 		}
-		// ret == 1 means empty line, continue looping
 	}
 }
 

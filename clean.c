@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:22:43 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/19 10:41:55 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:51:25 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ void	free_split(char **split)
 	i = 0;
 	while (split[i])
 	{
-		//free(split[i]);
 		i++;
 	}
-	//free(split);
 }
 
 void	free_map(t_map *map)
@@ -43,10 +41,8 @@ void	free_map(t_map *map)
 	i = 0;
 	while (i < map->height && map->grid[i])
 	{
-		//free(map->grid[i]);
 		i++;
 	}
-	//free(map->grid);
 	map->grid = NULL;
 }
 

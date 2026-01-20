@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:12:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/19 13:12:30 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:35:16 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	set_north_south(t_data *data, char orientation)
 	}
 }
 
+
 void	set_east_west(t_data *data, char orientation)
 {
 	if (orientation == 'E')
@@ -47,6 +48,7 @@ void	set_east_west(t_data *data, char orientation)
 		data->player.plane_y = -0.66;
 	}
 }
+
 
 void	set_player_direction(t_data *data, char orientation)
 {

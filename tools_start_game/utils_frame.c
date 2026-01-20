@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:30:52 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/16 10:32:58 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:54:23 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	draw_square(t_data *data, int x, int y, int color)
 		j = 0;
 		while (j < TILE)
 		{
-			// put_pixel(data, x + j, y + i, color);
 			mlx_pixel_put(data->mlx.mlx,data->mlx.win,x + j, y + i,color);
-			// usleep(250);
 			j++;
 		}
 		i++;
@@ -44,9 +42,7 @@ void	draw_player(t_data *data, int x, int y, int color)
 		j = 0;
 		while (j < 11)
 		{
-			// put_pixel(data, x + j, y + i, color);
 			mlx_pixel_put(data->mlx.mlx,data->mlx.win,x + j, y + i,color);
-			// usleep(250);
 			j++;
 		}
 		i++;
@@ -64,12 +60,11 @@ int	ray_hit_wall_step(t_data *data,double dirx,double diry,double *hit_x,double 
 	int		mx;
 	int		my;
 
-	/* بداية ray من اللاعب (map units) */
 	rx = data->player.pos_x;
 	ry = data->player.pos_y;
 
-	step = 0.02;      /* صغّرها إلا كان ray كيطفر */
-	max_dist = 50.0;  /* أقصى مسافة (باش ما تبقاش loop دايرة) */
+	step = 0.02;      
+	max_dist = 50.0;  
 	dist = 0.0;
 
 	while (dist < max_dist)
@@ -81,7 +76,6 @@ int	ray_hit_wall_step(t_data *data,double dirx,double diry,double *hit_x,double 
 		mx = (int)rx;
 		my = (int)ry;
 
-		/* خرج من الماب = حبّس ray */
 		if (my < 0 || my >= data->map.height|| mx < 0|| mx >= (int)ft_strlen(data->map.grid[my]))
 		{
 			*hit_x = rx;
@@ -89,7 +83,6 @@ int	ray_hit_wall_step(t_data *data,double dirx,double diry,double *hit_x,double 
 			return (1);
 		}
 
-		/* ضرب wall أو void */
 		if (data->map.grid[my][mx] == '1')
 		{
 			*hit_x = rx;

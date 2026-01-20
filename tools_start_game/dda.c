@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:57:09 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/19 12:08:56 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/20 10:56:56 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 
 
-/* اعتبر '1' wall و ' ' void */
 static int	is_wall_cell(t_data *data, int my, int mx)
 {
 	if (my < 0 || my >= data->map.height)
@@ -26,7 +25,7 @@ static int	is_wall_cell(t_data *data, int my, int mx)
 	return (0);
 }
 
-/* DDA cast: رجع hit info */
+
 t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 {
 	t_hit	h;
@@ -37,7 +36,6 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 	int		mapX = (int)rayPosX;
 	int		mapY = (int)rayPosY;
 
-	/* deltaDist: شحال ray كيحتاج باش يدوز من gridline ل gridline */
     double deltaDistX;
     double deltaDistY;
     
@@ -66,7 +64,6 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 
 	int		side = 0;
 
-	/* 1) stepX و sideDistX */
 	if (rayDirX < 0)
 	{
 		stepX = -1;
@@ -78,7 +75,7 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 		sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
 	}
 
-	/* 2) stepY و sideDistY */
+
 	if (rayDirY < 0)
 	{
 		stepY = -1;
@@ -90,31 +87,30 @@ t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY)
 		sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
 	}
 
-	/* 3) Loop DDA: كنقارن أقرب حد X ولا Y ونمشي ليه */
 	while (!is_wall_cell(data, mapY, mapX))
 	{
 		if (sideDistX < sideDistY)
 		{
 			sideDistX += deltaDistX;
 			mapX += stepX;
-			side = 0; /* ضربنا x-side */
+			side = 0;
 		}
 		else
 		{
 			sideDistY += deltaDistY;
 			mapY += stepY;
-			side = 1; /* ضربنا y-side */
+			side = 1;
 		}
-		/* إذا دخلنا فـ wall/void، loop غادي يوقف فالشرط */
+
 	}
 
-	/* 4) حساب perp distance (تصحيح fish-eye) */
 	if (side == 0)
 		h.perp_dist = (mapX - rayPosX + (1 - stepX) / 2.0) / rayDirX;
+		
 	else
 		h.perp_dist = (mapY - rayPosY + (1 - stepY) / 2.0) / rayDirY;
+	
 
-	/* 5) hit point (فين ضرب بالضبط) */
 	h.hit_x = rayPosX + rayDirX * h.perp_dist;
 	h.hit_y = rayPosY + rayDirY * h.perp_dist;
 
