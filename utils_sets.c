@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:12:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/20 13:35:16 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/21 10:00:27 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ void	set_north_south(t_data *data, char orientation)
 {
 	if (orientation == 'N')
 	{
-		data->player.dir_x = 0;
-		data->player.dir_y = -1;
+		data->player.dir_x = 0.0001;
+		data->player.dir_y = -1.0001;
 		data->player.plane_x = 0.66;
-		data->player.plane_y = 0;
+		data->player.plane_y = 0.0001;
 	}
 	else if (orientation == 'S')
 	{
-		data->player.dir_x = 0;
-		data->player.dir_y = 1;
+		data->player.dir_x = 0.0001;
+		data->player.dir_y = 1.0001;
 		data->player.plane_x = -0.66;
-		data->player.plane_y = 0;
+		data->player.plane_y = 0.0001;
 	}
 }
 
@@ -35,16 +35,16 @@ void	set_east_west(t_data *data, char orientation)
 {
 	if (orientation == 'E')
 	{
-		data->player.dir_x = 1;
-		data->player.dir_y = 0;
-		data->player.plane_x = 0;
+		data->player.dir_x = 1.0001;
+		data->player.dir_y = 0.0001;
+		data->player.plane_x = 0.0001;
 		data->player.plane_y = 0.66;
 	}
 	else if (orientation == 'W')
 	{
-		data->player.dir_x = -1;
-		data->player.dir_y = 0;
-		data->player.plane_x = 0;
+		data->player.dir_x = -1.0001;
+		data->player.dir_y = 0.0001;
+		data->player.plane_x = 0.0001;
 		data->player.plane_y = -0.66;
 	}
 }

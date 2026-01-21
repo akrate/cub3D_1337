@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 11:16:19 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/20 13:51:46 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/21 08:43:50 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	init_mlx(t_data *data)
 	if (!data->mlx.mlx)
 		return (print_error("mlx_init failed"));
 
-	data->mlx.win = mlx_new_window(data->mlx.mlx, data->map.width * 32, data->map.height * 32, "cub3D");
+	data->mlx.win = mlx_new_window(data->mlx.mlx, WIDTH, HEIGHT, "cub3D");
 
-	data->mlx.img = mlx_new_image(data->mlx.mlx, data->map.width * 32, data->map.height * 32);
+	data->mlx.img = mlx_new_image(data->mlx.mlx, WIDTH, HEIGHT);
 
 	data->mlx.addr = mlx_get_data_addr(
 		data->mlx.img,

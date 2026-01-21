@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:27:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/20 13:53:58 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/21 08:59:55 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	draw_crosshair(t_data *data)
 	int	cy;
 	int	i;
 
-	cx = (data->map.width * 32) / 2;
-	cy = (data->map.height * 32) / 2;
+	cx = WIDTH / 2;
+	cy = HEIGHT / 2;
 
 	i = -6;
 	while (i <= 6)
@@ -83,24 +83,24 @@ void	render_3d_walls(t_data *data)
 	int			color;
 
 	x = 0;
-	while (x < data->map.width * 32)
+	while (x < WIDTH)
 	{
-		cameraX = 2.0 * x / ((double)data->map.width * 32) - 1.0;
+		cameraX = 2.0 * x / (double)WIDTH - 1.0;
 
 		rayDirX = data->player.dir_x + data->player.plane_x * cameraX;
 		rayDirY = data->player.dir_y + data->player.plane_y * cameraX;
 
 		h = cast_ray_dda(data, rayDirX, rayDirY);
 
-		lineHeight = (int)((data->map.height * 32) / h.perp_dist);
+		lineHeight = (int)(HEIGHT / h.perp_dist);
 
-		drawStart = -lineHeight / 2 + (data->map.height * 32) / 2;
-		drawEnd = lineHeight / 2 + (data->map.height * 32) / 2;
+		drawStart = -lineHeight / 2 + HEIGHT / 2;
+		drawEnd = lineHeight / 2 + HEIGHT / 2;
 
 		if (drawStart < 0)
 			drawStart = 0;
-		if (drawEnd >= (data->map.height * 32))
-			drawEnd = (data->map.height * 32) - 1;
+		if (drawEnd >= HEIGHT)
+			drawEnd = HEIGHT - 1;
 
 		y = 0;
 		while (y < drawStart)
@@ -125,7 +125,7 @@ void	render_3d_walls(t_data *data)
 			tex_x = tex->w - tex_x - 1;
 
 		step = (double)tex->h / lineHeight;
-		tex_pos = (drawStart - (data->map.height * 32) / 2 + lineHeight / 2) * step;
+		tex_pos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
 
 		y = drawStart;
 		while (y <= drawEnd)
@@ -148,7 +148,7 @@ void	render_3d_walls(t_data *data)
 		}
 
 		y = drawEnd + 1;
-		while (y < (data->map.height * 32))
+		while (y < HEIGHT)
 		{
 			put_pixel_to_img(&data->mlx, x, y, data->floor.hex);
 			y++;

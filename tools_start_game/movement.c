@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:35:45 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/20 13:55:00 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/21 09:50:58 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ static void	move_player(int keycode, t_data *data)
 		nx += data->player.plane_x * speed;
 		ny += data->player.plane_y * speed;
 	}
-	if (data->map.grid[(int)data->player.pos_y][(int)nx] != '1')
+	if (data->map.grid[(int)data->player.pos_y][(int)nx] != '1' && data->map.grid[(int)ny][(int)data->player.pos_x] != '1')
 		data->player.pos_x = nx;
-	if (data->map.grid[(int)ny][(int)data->player.pos_x] != '1')
+	if (data->map.grid[(int)ny][(int)data->player.pos_x] != '1' && data->map.grid[(int)data->player.pos_y][(int)nx] != '1')
 		data->player.pos_y = ny;
 }
 static void	ecs(t_data *game)
