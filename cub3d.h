@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:23:30 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/21 09:39:20 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/23 19:10:43 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,4 +216,5 @@ t_img_tex	*get_wall_texture(t_data *data, t_hit h,
 								double rayDirX, double rayDirY);
 t_hit	cast_ray_dda(t_data *data, double rayDirX, double rayDirY);
 void	render_3d_walls(t_data *data);
+void	put_pixel_to_img(t_mlx *mlx, int x, int y, int color);
 #endif

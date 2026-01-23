@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:50:20 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/20 13:53:13 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/23 18:58:22 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,5 +249,41 @@ void	draw_fov(t_data *data)
 // 		// 	draw_vertical_line(data, x, drawStart, drawEnd, 0x00990000);
 
 // 		x++;
+// 	}
+// }
+
+// void	draw_rays_dda(t_data *data)
+// {
+// 	int		i;
+// 	int		rays;
+// 	double	cameraX;
+// 	double	rayDirX;
+// 	double	rayDirY;
+// 	t_hit	h;
+
+// 	int		px_pix;
+// 	int		py_pix;
+
+// 	rays = WIDTH;
+// 	px_pix = (int)((data->player.pos_x + 0.1)* TILE);
+// 	py_pix = (int)((data->player.pos_y + 0.1)* TILE);
+
+// 	i = 0;
+// 	while (i < rays)
+// 	{
+// 		cameraX = 2.0 * i / (double)rays - 1.0;
+
+// 		rayDirX = data->player.dir_x + data->player.plane_x * cameraX;
+// 		rayDirY = data->player.dir_y + data->player.plane_y * cameraX;
+// 		h = cast_ray_dda(data, rayDirX, rayDirY);
+
+// 		draw_line(
+// 			data,
+// 			px_pix, py_pix,
+// 			(int)(h.hit_x * TILE), (int)(h.hit_y * TILE),
+// 			0x00AAAAAA
+// 		);
+
+// 		i++;
 // 	}
 // }

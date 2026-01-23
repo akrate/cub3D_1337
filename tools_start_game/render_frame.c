@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:27:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/21 08:59:55 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/23 19:09:02 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,149 +60,110 @@ void	draw_crosshair(t_data *data)
 	}
 }
 
-void	render_3d_walls(t_data *data)
-{
-	int			x;
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
-	t_hit		h;
+// void	render_3d_walls(t_data *data)
+// {
+// 	int			x;
+// 	double		cameraX;
+// 	double		rayDirX;
+// 	double		rayDirY;
+// 	t_hit		h;
 
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
+// 	int			lineHeight;
+// 	int			drawStart;
+// 	int			drawEnd;
 
-	t_img_tex	*tex;
-	double		wall_x;
-	int			tex_x;
+// 	t_img_tex	*tex;
+// 	double		wall_x;
+// 	int			tex_x;
 
-	double		step;
-	double		tex_pos;
-	int			y;
-	int			tex_y;
-	int			color;
+// 	double		step;
+// 	double		tex_pos;
+// 	int			y;
+// 	int			tex_y;
+// 	int			color;
 
-	x = 0;
-	while (x < WIDTH)
-	{
-		cameraX = 2.0 * x / (double)WIDTH - 1.0;
+// 	x = 0;
+// 	while (x < WIDTH)
+// 	{
+// 		cameraX = 2.0 * x / (double)WIDTH - 1.0;
 
-		rayDirX = data->player.dir_x + data->player.plane_x * cameraX;
-		rayDirY = data->player.dir_y + data->player.plane_y * cameraX;
+// 		rayDirX = data->player.dir_x + data->player.plane_x * cameraX;
+// 		rayDirY = data->player.dir_y + data->player.plane_y * cameraX;
 
-		h = cast_ray_dda(data, rayDirX, rayDirY);
+// 		h = cast_ray_dda(data, rayDirX, rayDirY);
 
-		lineHeight = (int)(HEIGHT / h.perp_dist);
+// 		lineHeight = (int)(HEIGHT / h.perp_dist);
 
-		drawStart = -lineHeight / 2 + HEIGHT / 2;
-		drawEnd = lineHeight / 2 + HEIGHT / 2;
+// 		drawStart = -lineHeight / 2 + HEIGHT / 2;
+// 		drawEnd = lineHeight / 2 + HEIGHT / 2;
 
-		if (drawStart < 0)
-			drawStart = 0;
-		if (drawEnd >= HEIGHT)
-			drawEnd = HEIGHT - 1;
+// 		if (drawStart < 0)
+// 			drawStart = 0;
+// 		if (drawEnd >= HEIGHT)
+// 			drawEnd = HEIGHT - 1;
 
-		y = 0;
-		while (y < drawStart)
-		{
-			put_pixel_to_img(&data->mlx, x, y, data->ceiling.hex);
-			y++;
-		}
+// 		y = 0;
+// 		while (y < drawStart)
+// 		{
+// 			put_pixel_to_img(&data->mlx, x, y, data->ceiling.hex);
+// 			y++;
+// 		}
 
-		tex = get_wall_texture(data, h, rayDirX, rayDirY);
+// 		tex = get_wall_texture(data, h, rayDirX, rayDirY);
 
-		if (h.side == 0)
-			wall_x = h.hit_y;
-		else
-			wall_x = h.hit_x;
+// 		if (h.side == 0)
+// 			wall_x = h.hit_y;
+// 		else
+// 			wall_x = h.hit_x;
 
-		wall_x -= floor(wall_x);
-		tex_x = (int)(wall_x * tex->w);
+// 		wall_x -= floor(wall_x);
+// 		tex_x = (int)(wall_x * tex->w);
 
-		if (h.side == 0 && rayDirX > 0)
-			tex_x = tex->w - tex_x - 1;
-		if (h.side == 1 && rayDirY < 0)
-			tex_x = tex->w - tex_x - 1;
+// 		if (h.side == 0 && rayDirX > 0)
+// 			tex_x = tex->w - tex_x - 1;
+// 		if (h.side == 1 && rayDirY < 0)
+// 			tex_x = tex->w - tex_x - 1;
 
-		step = (double)tex->h / lineHeight;
-		tex_pos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
+// 		step = (double)tex->h / lineHeight;
+// 		tex_pos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
 
-		y = drawStart;
-		while (y <= drawEnd)
-		{
-			tex_y = (int)tex_pos;
-			if (tex_y < 0)
-				tex_y = 0;
-			if (tex_y >= tex->h)
-				tex_y = tex->h - 1;
+// 		y = drawStart;
+// 		while (y <= drawEnd)
+// 		{
+// 			tex_y = (int)tex_pos;
+// 			if (tex_y < 0)
+// 				tex_y = 0;
+// 			if (tex_y >= tex->h)
+// 				tex_y = tex->h - 1;
 
-			color = get_tex_color(tex, tex_x, tex_y);
+// 			color = get_tex_color(tex, tex_x, tex_y);
 
-			if (h.side == 1)
-				color = (color >> 1) & 0x007F7F7F;
+// 			if (h.side == 1)
+// 				color = (color >> 1) & 0x007F7F7F;
 
-			put_pixel_to_img(&data->mlx, x, y, color);
+// 			put_pixel_to_img(&data->mlx, x, y, color);
 
-			tex_pos += step;
-			y++;
-		}
+// 			tex_pos += step;
+// 			y++;
+// 		}
 
-		y = drawEnd + 1;
-		while (y < HEIGHT)
-		{
-			put_pixel_to_img(&data->mlx, x, y, data->floor.hex);
-			y++;
-		}
+// 		y = drawEnd + 1;
+// 		while (y < HEIGHT)
+// 		{
+// 			put_pixel_to_img(&data->mlx, x, y, data->floor.hex);
+// 			y++;
+// 		}
 
-		x++;
-	}
+// 		x++;
+// 	}
 
-	mlx_put_image_to_window(
-		data->mlx.mlx,
-		data->mlx.win,
-		data->mlx.img,
-		0, 0
-	);
-}
-
-
-void	draw_rays_dda(t_data *data)
-{
-	int		i;
-	int		rays;
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	t_hit	h;
-
-	int		px_pix;
-	int		py_pix;
-
-	rays = WIDTH;
-	px_pix = (int)((data->player.pos_x + 0.1)* TILE);
-	py_pix = (int)((data->player.pos_y + 0.1)* TILE);
-
-	i = 0;
-	while (i < rays)
-	{
-		cameraX = 2.0 * i / (double)rays - 1.0;
-
-		rayDirX = data->player.dir_x + data->player.plane_x * cameraX;
-		rayDirY = data->player.dir_y + data->player.plane_y * cameraX;
-		h = cast_ray_dda(data, rayDirX, rayDirY);
-
-		draw_line(
-			data,
-			px_pix, py_pix,
-			(int)(h.hit_x * TILE), (int)(h.hit_y * TILE),
-			0x00AAAAAA
-		);
-
-		i++;
-	}
-}
-
-
+// 	mlx_put_image_to_window(
+// 		data->mlx.mlx,
+// 		data->mlx.win,
+// 		data->mlx.img,
+// 		0, 0
+// 	);
+// }
 
 
 void	render_frame(t_data *data)
