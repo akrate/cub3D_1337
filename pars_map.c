@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:20 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 10:09:02 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/25 11:00:12 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ int	add_map_line(t_data *data, char *line)
 	copy_line_to_map(line, map_line, len);
 	data->map.grid[data->map.height] = map_line;
 	data->map.grid[data->map.height + 1] = NULL;
-	
-	
 	data->map.height++;
 	return (1);
 }
+
 int	is_only_spaces(char *line)
 {
 	int	i;
@@ -69,6 +68,7 @@ int	is_only_spaces(char *line)
 	}
 	return (1);
 }
+
 int	handle_map_line(t_data *data, char *line, int *map_started)
 {
 	if (is_map_line(line))
@@ -89,6 +89,7 @@ int	handle_map_line(t_data *data, char *line, int *map_started)
 	}
 	return (1);
 }
+
 int	parse_map(int fd, t_data *data)
 {
 	char	*line;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:16:43 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/13 15:21:51 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:57:03 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*get_word(char const *s, char c)
 	while (s[len] && s[len] != c)
 		len++;
 	word = ft_malloc(len + 1, &(set_get_data(NULL)->lst_gc_g));
-
 	i = 0;
 	while (i < len)
 	{
@@ -83,6 +82,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
-	result = ft_malloc(sizeof(char *) * (words + 1), &(set_get_data(NULL)->lst_gc_g));
+	result = ft_malloc(sizeof(char *) * (words + 1),
+			&(set_get_data(NULL)->lst_gc_g));
 	return (fill_split(s, c, result));
 }

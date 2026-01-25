@@ -6,35 +6,33 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:08:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/23 19:10:09 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
 #include "../cub3d.h"
 
-void	compute_ray(t_data *data, int x, double *rx, double *ry)
+void	compute_ray(t_data *data, t_column *c)
 {
 	double	camera_x;
 
-	camera_x = 2.0 * x / (double)WIDTH - 1.0;
-	*rx = data->player.dir_x + data->player.plane_x * camera_x;
-	*ry = data->player.dir_y + data->player.plane_y * camera_x;
+	camera_x = 2.0 * c->x / (double)WIDTH - 1.0;
+	c->rx = data->player.dir_x + data->player.plane_x * camera_x;
+	c->ry = data->player.dir_y + data->player.plane_y * camera_x;
 }
 
-void	compute_wall_height(t_hit h, int *start, int *end, int *hgt)
+
+void	compute_wall_height(t_column *c)
 {
-	*hgt = (int)(HEIGHT / h.perp_dist);
-	*start = -(*hgt) / 2 + HEIGHT / 2;
-	*end = (*hgt) / 2 + HEIGHT / 2;
-	if (*start < 0)
-		*start = 0;
-	if (*end >= HEIGHT)
-		*end = HEIGHT - 1;
+	c->height = (int)(HEIGHT / c->hit.perp_dist);
+	c->start_raw = -c->height / 2 + HEIGHT / 2;
+	c->start = c->start_raw;
+	c->end = c->height / 2 + HEIGHT / 2;
+	if (c->start < 0)
+		c->start = 0;
+	if (c->end >= HEIGHT)
+		c->end = HEIGHT - 1;
 }
-
 void	draw_ceiling(t_data *data, int x, int end)
 {
 	int	y;
@@ -43,49 +41,6 @@ void	draw_ceiling(t_data *data, int x, int end)
 	while (y < end)
 	{
 		put_pixel_to_img(&data->mlx, x, y, data->ceiling.hex);
-		y++;
-	}
-}
-
-void	prepare_texture(
-	t_data *data, t_hit h, double rx, double ry,
-	t_img_tex **tex, int *tex_x)
-{
-	double	wall_x;
-
-	*tex = get_wall_texture(data, h, rx, ry);
-	if (h.side == 0)
-		wall_x = h.hit_y;
-	else
-		wall_x = h.hit_x;
-	wall_x -= floor(wall_x);
-	*tex_x = (int)(wall_x * (*tex)->w);
-	if (h.side == 0 && rx > 0)
-		*tex_x = (*tex)->w - *tex_x - 1;
-	if (h.side == 1 && ry < 0)
-		*tex_x = (*tex)->w - *tex_x - 1;
-}
-
-void	draw_wall(
-	t_data *data, int x, t_hit h,
-	t_img_tex *tex, int tex_x,
-	int start, int end)
-{
-	double	step;
-	double	pos;
-	int	y;
-	int	color;
-
-	step = (double)tex->h / (end - start + 1);
-	pos = 0;
-	y = start;
-	while (y <= end)
-	{
-		color = get_tex_color(tex, tex_x, (int)pos);
-		if (h.side == 1)
-			color = (color >> 1) & 0x007F7F7F;
-		put_pixel_to_img(&data->mlx, x, y, color);
-		pos += step;
 		y++;
 	}
 }
@@ -102,30 +57,72 @@ void	draw_floor(t_data *data, int x, int start)
 	}
 }
 
+void	prepare_texture(t_data *data, t_column *c)
+{
+	double	wall_x;
+
+	c->tex = get_wall_texture(data, c->hit, c->rx, c->ry);
+	if (c->hit.side == 0)
+		wall_x = c->hit.hit_y;
+	else
+		wall_x = c->hit.hit_x;
+	wall_x -= floor(wall_x);
+	c->tex_x = (int)(wall_x * c->tex->w);
+	if (c->hit.side == 0 && c->rx > 0)
+		c->tex_x = c->tex->w - c->tex_x - 1;
+	if (c->hit.side == 1 && c->ry < 0)
+		c->tex_x = c->tex->w - c->tex_x - 1;
+}
+
+void	draw_wall(t_data *data, t_column *c)
+{
+	double	step;
+	double	pos;
+	int		y;
+	int		tex_y;
+	int		color;
+
+	step = (double)c->tex->h / (double)c->height;
+	pos = (c->start - c->start_raw) * step;
+	y = c->start;
+	while (y <= c->end)
+	{
+		tex_y = (int)pos;
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= c->tex->h)
+			tex_y = c->tex->h - 1;
+		color = get_tex_color(c->tex, c->tex_x, tex_y);
+		if (c->hit.side == 1)
+			color = (color >> 1) & 0x007F7F7F;
+		put_pixel_to_img(&data->mlx, c->x, y, color);
+		pos += step;
+		y++;
+	}
+}
+
+
 void	render_3d_walls(t_data *data)
 {
-	int			x;
-	double		rx;
-	double		ry;
-	t_hit		h;
-	int			start;
-	int			end;
-	int			height;
-	t_img_tex	*tex;
-	int			tex_x;
+	t_column	c;
 
-	x = 0;
-	while (x < WIDTH)
+	c.x = 0;
+	while (c.x < WIDTH)
 	{
-		compute_ray(data, x, &rx, &ry);
-		h = cast_ray_dda(data, rx, ry);
-		compute_wall_height(h, &start, &end, &height);
-		draw_ceiling(data, x, start);
-		prepare_texture(data, h, rx, ry, &tex, &tex_x);
-		draw_wall(data, x, h, tex, tex_x, start, end);
-		draw_floor(data, x, end);
-		x++;
+		compute_ray(data, &c);
+		c.hit = cast_ray_dda(data, c.rx, c.ry);
+		compute_wall_height(&c);
+		draw_ceiling(data, c.x, c.start);
+		prepare_texture(data, &c);
+		draw_wall(data, &c);
+		draw_floor(data, c.x, c.end);
+		c.x++;
 	}
 	mlx_put_image_to_window(
-		data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
+		data->mlx.mlx,
+		data->mlx.win,
+		data->mlx.img,
+		0,
+		0);
 }
+

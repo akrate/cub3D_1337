@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:32:14 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 09:43:50 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:58:32 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	validate_rgb_string(char *str)
 	}
 	return (comma_count == 2);
 }
-int is_walkable(char c)
+
+int	is_walkable(char c)
 {
-    return (c == '0' || c == 'N' || c == 'S'
-         || c == 'E' || c == 'W');
+	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }

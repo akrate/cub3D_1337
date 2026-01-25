@@ -37,7 +37,8 @@ char	**realloc_map(char **map, int new_size)
 	char	**new_map;
 	int		i;
 
-	new_map = ft_malloc(sizeof(char *) * (new_size + 1), &(set_get_data(NULL)->lst_gc_g));
+	new_map = ft_malloc(sizeof(char *) * (new_size + 1),
+			&(set_get_data(NULL)->lst_gc_g));
 	i = 0;
 	while (i < new_size - 1 && map && map[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:28:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/20 13:50:47 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:56:19 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	skip_to_map(int fd, t_data *data)
 			return (0);
 		if (ret == -1)
 		{
-
 			if (!add_map_line(data, line))
 				return (0);
 			return (1);

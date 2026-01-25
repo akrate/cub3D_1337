@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:22:43 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/20 13:51:25 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:56:30 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	free_textures(t_data *data)
 	if (data->tex.ea.img)
 		mlx_destroy_image(data->mlx.mlx, data->tex.ea.img);
 }
-
 
 void	free_data(t_data *data)
 {
