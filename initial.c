@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:05:21 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/19 10:03:52 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 void	init_data(t_data *data)
 {
@@ -37,7 +37,7 @@ char	**realloc_map(char **map, int new_size)
 	char	**new_map;
 	int		i;
 
-	new_map = ft_malloc(sizeof(char *) * (new_size + 1),
+	new_map = ft_malloc(sizeof(char *) * (new_size),
 			&(set_get_data(NULL)->lst_gc_g));
 	i = 0;
 	while (i < new_size - 1 && map && map[i])

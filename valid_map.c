@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:55 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 10:59:32 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 int	process_player_cell(t_data *data, int x, int y)
 {

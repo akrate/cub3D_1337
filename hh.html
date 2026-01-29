@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cub3D Interactive Direction & Plane Editor</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1400px;
+        }
+        
+        .visualization {
+            background: #0a0a0a;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        canvas {
+            border: 1px solid #004400;
+            background: #000;
+            display: block;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        button {
+            background: #003300;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 15px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 15px #00ff00;
+        }
+        
+        button.active {
+            background: #00ff00;
+            color: #000;
+        }
+        
+        .info {
+            background: #0a0a0a;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .info h2 {
+            margin-top: 0;
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        
+        .value-editor {
+            margin: 15px 0;
+            padding: 15px;
+            background: #001a00;
+            border-left: 3px solid #00ff00;
+            border-radius: 5px;
+        }
+        
+        .value-editor .label {
+            color: #00aa00;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .input-group label {
+            color: #00ff00;
+            min-width: 70px;
+        }
+        
+        input[type="number"] {
+            background: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border-radius: 3px;
+            width: 120px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .range-value {
+            color: #00ff00;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .legend {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border: 1px solid #00ff00;
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #001100;
+            border-radius: 5px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            margin-top: 15px;
+            background: #330000;
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+        
+        .reset-btn:hover {
+            background: #ff3333;
+            color: #000;
+            box-shadow: 0 0 15px #ff3333;
+        }
+        
+        .mode-switch {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .mode-switch button {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .info-box {
+            background: #001a33;
+            border-left: 3px solid #0099ff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #00aaff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 CUB3D INTERACTIVE EDITOR 🎮</h1>
+    <div class="subtitle">42 School - Click and drag on canvas or use sliders to modify values</div>
+    
+    <div class="container">
+        <div class="visualization">
+            <canvas id="topView" width="600" height="600"></canvas>
+            <div class="controls">
+                <button onclick="setOrientation('N')" id="btnN">NORTH (N)</button>
+                <button onclick="setOrientation('S')" id="btnS">SOUTH (S)</button>
+                <button onclick="setOrientation('E')" id="btnE">EAST (E)</button>
+                <button onclick="setOrientation('W')" id="btnW">WEST (W)</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h2>📊 Interactive Controls</h2>
+            
+            <div class="mode-switch">
+                <button onclick="setEditMode('direction')" id="modeDir" class="active">Edit Direction</button>
+                <button onclick="setEditMode('plane')" id="modePlane">Edit Plane</button>
+            </div>
+            
+            <div class="info-box">
+                <strong id="modeInfo">Click and drag on canvas to set direction vector</strong>
+            </div>
+            
+            <div class="value-editor">
+                <span class="label">Direction Vector (dir_x, dir_y):</span>
+                
+                <div class="input-group">
+                    <label>dir_x:</label>
+                    <input type="range" id="dirXSlider" min="-2" max="2" step="0.0001" value="0.0001" oninput="updateFromSlider('dirX')">
+                    <span class="range-value" id="dirXValue">0.0001</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>dir_y:</label>
+                    <input type="range" id="dirYSlider" min="-2" max="2" step="0.0001" value="-1.0001" oninput="updateFromSlider('dirY')">
+                    <span class="range-value" id="dirYValue">-1.0001</span>
+                </div>
+            </div>
+            
+            <div class="value-editor">
+                <span class="label">Camera Plane (plane_x, plane_y):</span>
+                
+                <div class="input-group">
+                    <label>plane_x:</label>
+                    <input type="range" id="planeXSlider" min="-2" max="2" step="0.01" value="0.66" oninput="updateFromSlider('planeX')">
+                    <span class="range-value" id="planeXValue">0.66</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>plane_y:</label>
+                    <input type="range" id="planeYSlider" min="-2" max="2" step="0.01" value="0.0001" oninput="updateFromSlider('planeY')">
+                    <span class="range-value" id="planeYValue">0.0001</span>
+                </div>
+            </div>
+            
+            <button class="reset-btn" onclick="resetToDefault()">🔄 Reset to Default (N)</button>
+            
+            <div class="legend">
+                <h3 style="margin: 10px 0;">Legend:</h3>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00ff00;"></div>
+                    <span>Direction Vector</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff00ff;"></div>
+                    <span>Camera Plane</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ffff00;"></div>
+                    <span>FOV Rays</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00ffff;"></div>
+                    <span>Player Position</span>
+                </div>
+            </div>
+            
+            <div class="explanation">
+                <strong>💡 How to use:</strong><br><br>
+                
+                <strong>Method 1:</strong> Use the sliders to adjust values precisely.<br><br>
+                
+                <strong>Method 2:</strong> Click on the canvas and drag to set vectors visually.<br><br>
+                
+                <strong>Direction Vector:</strong> Points where the player is looking.<br><br>
+                
+                <strong>Camera Plane:</strong> Should be perpendicular to direction. Length determines FOV (~0.66 for 66°).<br><br>
+                
+                <strong>Tip:</strong> The plane should always be perpendicular to the direction for proper raycasting!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('topView');
+        const ctx = canvas.getContext('2d');
+        
+        let dirX = 0.0001;
+        let dirY = -1.0001;
+        let planeX = 0.66;
+        let planeY = 0.0001;
+        let editMode = 'direction'; // 'direction' or 'plane'
+        let isDragging = false;
+        
+        const orientations = {
+            'N': { dirX: 0.0001, dirY: -1.0001, planeX: 0.66, planeY: 0.0001 },
+            'S': { dirX: 0.0001, dirY: 1.0001, planeX: -0.66, planeY: 0.0001 },
+            'E': { dirX: 1.0001, dirY: 0.0001, planeX: 0.0001, planeY: 0.66 },
+            'W': { dirX: -1.0001, dirY: 0.0001, planeX: 0.0001, planeY: -0.66 }
+        };
+        
+        function setEditMode(mode) {
+            editMode = mode;
+            document.querySelectorAll('.mode-switch button').forEach(btn => btn.classList.remove('active'));
+            if (mode === 'direction') {
+                document.getElementById('modeDir').classList.add('active');
+                document.getElementById('modeInfo').textContent = 'Click and drag on canvas to set direction vector';
+            } else {
+                document.getElementById('modePlane').classList.add('active');
+                document.getElementById('modeInfo').textContent = 'Click and drag on canvas to set camera plane vector';
+            }
+        }
+        
+        function setOrientation(orientation) {
+            const values = orientations[orientation];
+            dirX = values.dirX;
+            dirY = values.dirY;
+            planeX = values.planeX;
+            planeY = values.planeY;
+            
+            updateUI();
+            document.querySelectorAll('.controls button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn' + orientation).classList.add('active');
+        }
+        
+        function updateFromSlider(param) {
+            switch(param) {
+                case 'dirX':
+                    dirX = parseFloat(document.getElementById('dirXSlider').value);
+                    break;
+                case 'dirY':
+                    dirY = parseFloat(document.getElementById('dirYSlider').value);
+                    break;
+                case 'planeX':
+                    planeX = parseFloat(document.getElementById('planeXSlider').value);
+                    break;
+                case 'planeY':
+                    planeY = parseFloat(document.getElementById('planeYSlider').value);
+                    break;
+            }
+            updateUI();
+        }
+        
+        function updateUI() {
+            document.getElementById('dirXSlider').value = dirX;
+            document.getElementById('dirXValue').textContent = dirX.toFixed(4);
+            
+            document.getElementById('dirYSlider').value = dirY;
+            document.getElementById('dirYValue').textContent = dirY.toFixed(4);
+            
+            document.getElementById('planeXSlider').value = planeX;
+            document.getElementById('planeXValue').textContent = planeX.toFixed(4);
+            
+            document.getElementById('planeYSlider').value = planeY;
+            document.getElementById('planeYValue').textContent = planeY.toFixed(4);
+            
+            draw();
+        }
+        
+        function resetToDefault() {
+            setOrientation('N');
+        }
+        
+        // Canvas mouse interaction
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            updateVectorFromMouse(e);
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateVectorFromMouse(e);
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+        
+        function updateVectorFromMouse(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const scale = 150;
+            
+            const vecX = (x - centerX) / scale;
+            const vecY = (y - centerY) / scale;
+            
+            if (editMode === 'direction') {
+                dirX = vecX;
+                dirY = vecY;
+                
+                // Normalize if too long
+                const len = Math.sqrt(dirX * dirX + dirY * dirY);
+                if (len > 2) {
+                    dirX = (dirX / len) * 2;
+                    dirY = (dirY / len) * 2;
+                }
+            } else {
+                planeX = vecX;
+                planeY = vecY;
+                
+                // Normalize if too long
+                const len = Math.sqrt(planeX * planeX + planeY * planeY);
+                if (len > 2) {
+                    planeX = (planeX / len) * 2;
+                    planeY = (planeY / len) * 2;
+                }
+            }
+            
+            updateUI();
+        }
+        
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const scale = 150;
+            
+            // Draw grid
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = 1;
+            for (let i = -3; i <= 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX + i * scale, 0);
+                ctx.lineTo(centerX + i * scale, canvas.height);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(0, centerY + i * scale);
+                ctx.lineTo(canvas.width, centerY + i * scale);
+                ctx.stroke();
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#555';
+            ctx.font = '14px Courier New';
+            ctx.fillText('X', canvas.width - 30, centerY - 10);
+            ctx.fillText('Y', centerX + 10, 20);
+            
+            // Draw FOV cone
+            ctx.strokeStyle = '#ffff0033';
+            ctx.fillStyle = '#ffff0011';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            
+            const numRays = 40;
+            for (let i = 0; i <= numRays; i++) {
+                const cameraX = 2 * i / numRays - 1;
+                const rayDirX = dirX + planeX * cameraX;
+                const rayDirY = dirY + planeY * cameraX;
+                
+                const rayLength = 2.5;
+                const endX = centerX + rayDirX * scale * rayLength;
+                const endY = centerY + rayDirY * scale * rayLength;
+                
+                ctx.lineTo(endX, endY);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // Draw edge rays
+            for (let cameraX of [-1, 0, 1]) {
+                const rayDirX = dirX + planeX * cameraX;
+                const rayDirY = dirY + planeY * cameraX;
+                
+                ctx.strokeStyle = cameraX === 0 ? '#ffff00' : '#ffff0066';
+                ctx.lineWidth = cameraX === 0 ? 3 : 1.5;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(centerX + rayDirX * scale * 2.5, centerY + rayDirY * scale * 2.5);
+                ctx.stroke();
+            }
+            
+            // Draw direction vector
+            ctx.strokeStyle = editMode === 'direction' ? '#00ff00' : '#00aa00';
+            ctx.lineWidth = editMode === 'direction' ? 5 : 4;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + dirX * scale, centerY + dirY * scale);
+            ctx.stroke();
+            
+            // Arrow head for direction
+            drawArrow(centerX + dirX * scale, centerY + dirY * scale, 
+                     Math.atan2(dirY, dirX), editMode === 'direction' ? '#00ff00' : '#00aa00');
+            
+            // Draw camera plane vector
+            ctx.strokeStyle = editMode === 'plane' ? '#ff00ff' : '#aa00aa';
+            ctx.lineWidth = editMode === 'plane' ? 4 : 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX - planeX * scale, centerY - planeY * scale);
+            ctx.lineTo(centerX + planeX * scale, centerY + planeY * scale);
+            ctx.stroke();
+            
+            // Draw player
+            ctx.fillStyle = '#00ffff';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#00ffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#00ff00';
+            ctx.font = 'bold 14px Courier New';
+            ctx.fillText('DIR', centerX + dirX * scale + 15, centerY + dirY * scale);
+            
+            ctx.fillStyle = '#ff00ff';
+            ctx.fillText('PLANE', centerX + planeX * scale + 15, centerY + planeY * scale);
+            
+            // Calculate FOV angle
+            const planeLen = Math.sqrt(planeX * planeX + planeY * planeY);
+            const fov = Math.atan(planeLen) * 2 * 180 / Math.PI;
+            
+            ctx.fillStyle = '#ffff00';
+            ctx.font = '12px Courier New';
+            ctx.fillText(`FOV: ${fov.toFixed(1)}°`, 10, 20);
+            
+            // Check if perpendicular
+            const dotProduct = dirX * planeX + dirY * planeY;
+            const isPerpendicular = Math.abs(dotProduct) < 0.1;
+            ctx.fillStyle = isPerpendicular ? '#00ff00' : '#ff3333';
+            ctx.fillText(isPerpendicular ? '✓ Perpendicular' : '✗ Not perpendicular', 10, 40);
+        }
+        
+        function drawArrow(x, y, angle, color) {
+            const arrowSize = 15;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - arrowSize * Math.cos(angle - Math.PI / 6),
+                      y - arrowSize * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(x - arrowSize * Math.cos(angle + Math.PI / 6),
+                      y - arrowSize * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Initialize
+        setOrientation('N');
+    </script>
+</body>
+</html>

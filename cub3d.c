@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:18:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 10:56:38 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:42:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 static int	parse_texture_element(char *trimmed, t_data *data)
 {

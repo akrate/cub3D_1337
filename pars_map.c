@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:21:20 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 11:00:12 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 int	get_line_length(char *line)
 {
@@ -77,7 +77,7 @@ int	handle_map_line(t_data *data, char *line, int *map_started)
 		if (!add_map_line(data, line))
 			return (0);
 	}
-	else if (*map_started)
+	else if (*map_started == 1)
 	{
 		if (is_only_spaces(line) || line[0] == '\n')
 		{
@@ -87,23 +87,5 @@ int	handle_map_line(t_data *data, char *line, int *map_started)
 		print_error("Invalid character in map");
 		return (0);
 	}
-	return (1);
-}
-
-int	parse_map(int fd, t_data *data)
-{
-	char	*line;
-	int		map_started;
-
-	map_started = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (!handle_map_line(data, line, &map_started))
-			return (0);
-		line = get_next_line(fd);
-	}
-	if (data->map.height == 0)
-		return (print_error("No map found"), 0);
 	return (1);
 }

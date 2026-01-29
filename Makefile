@@ -6,7 +6,7 @@
 #    By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/13 13:17:26 by melkhatr          #+#    #+#              #
-#    Updated: 2026/01/23 19:09:47 by aoussama         ###   ########.fr        #
+#    Updated: 2026/01/29 12:57:39 by aoussama         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,9 @@ SRCS = cub3d.c \
        tools_start_game/utils_frame.c\
        textures_code/texture.c\
        tools_start_game/render_3d_walls.c\
-       tools_start_game/dda.c
+       tools_start_game/dda.c\
+       tools_start_game/tools_dda.c
+
 LDFLAGS = -L./minilibx-linux/ -lmlx_Linux -lXext -lX11
 
 OBJS = $(SRCS:.c=.o)

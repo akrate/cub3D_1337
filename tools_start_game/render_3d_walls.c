@@ -6,33 +6,12 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:08:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/25 10:45:47 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:37:40 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../includes/tools_game.h"
 
-void	compute_ray(t_data *data, t_column *c)
-{
-	double	camera_x;
-
-	camera_x = 2.0 * c->x / (double)WIDTH - 1.0;
-	c->rx = data->player.dir_x + data->player.plane_x * camera_x;
-	c->ry = data->player.dir_y + data->player.plane_y * camera_x;
-}
-
-
-void	compute_wall_height(t_column *c)
-{
-	c->height = (int)(HEIGHT / c->hit.perp_dist);
-	c->start_raw = -c->height / 2 + HEIGHT / 2;
-	c->start = c->start_raw;
-	c->end = c->height / 2 + HEIGHT / 2;
-	if (c->start < 0)
-		c->start = 0;
-	if (c->end >= HEIGHT)
-		c->end = HEIGHT - 1;
-}
 void	draw_ceiling(t_data *data, int x, int end)
 {
 	int	y;
@@ -101,7 +80,6 @@ void	draw_wall(t_data *data, t_column *c)
 	}
 }
 
-
 void	render_3d_walls(t_data *data)
 {
 	t_column	c;
@@ -118,11 +96,5 @@ void	render_3d_walls(t_data *data)
 		draw_floor(data, c.x, c.end);
 		c.x++;
 	}
-	mlx_put_image_to_window(
-		data->mlx.mlx,
-		data->mlx.win,
-		data->mlx.img,
-		0,
-		0);
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 }
-

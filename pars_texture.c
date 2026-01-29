@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pars_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:20:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2025/12/15 11:35:03 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 static int	has_invalid_spacing(char *str)
 {
@@ -109,12 +109,9 @@ int	parse_color(char *line, t_color *color)
 		return (print_error("Empty color"), 0);
 	if (!validate_rgb_string(trimmed))
 	{
-		//free(trimmed);
 		return (print_error("Invalid color format"), 0);
 	}
 	rgb = ft_split(trimmed, ',');
-	//free(trimmed);
 	ret = parse_rgb_values(rgb, color);
-	// free_split(rgb);
 	return (ret);
 }

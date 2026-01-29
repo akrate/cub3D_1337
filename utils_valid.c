@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_valid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:01:35 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/11 09:51:45 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 int	is_valid_char(char c)
 {
@@ -65,7 +65,9 @@ int	validate_walls(t_data *data)
 		x = 0;
 		while (data->map.grid[y][x])
 		{
-			if (data->map.grid[y][x] == '0' || data->map.grid[y][x] == 'E')
+			if (data->map.grid[y][x] == '0' || data->map.grid[y][x] == 'E'
+				|| data->map.grid[y][x] == 'W' || data->map.grid[y][x] == 'S'
+				|| data->map.grid[y][x] == 'N')
 			{
 				if (!check_position_walls(data, x, y))
 					return (print_error("Map not closed by walls"), 0);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melkhatr <melkhatr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 13:58:38 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/09 11:20:26 by melkhatr         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 t_lst_garbage	*ft_lstnew(void *ptr)
 {
@@ -49,14 +49,14 @@ void	*ft_malloc(size_t size, t_lst_garbage **head)
 	p = malloc(size);
 	if (!p)
 	{
-		// ft_putstr_fd("Failed to allocate memory\n", 2);
+		write(2, "Failed to allocate memory\n", 27);
 		free_garbage(&set_get_data(NULL)->lst_gc_g);
 		exit(2);
 	}
 	new = ft_lstnew(p);
 	if (!new)
 	{
-		// ft_putstr_fd("Failed to allocate memory\n", 2);
+		write(2, "Failed to allocate memory\n", 27);
 		free(p);
 		free_garbage(&set_get_data(NULL)->lst_gc_g);
 		exit(2);

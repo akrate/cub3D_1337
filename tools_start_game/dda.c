@@ -6,63 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:57:09 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/23 10:10:03 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:37:24 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
-
-typedef struct s_ray
-{
-	double		pos_x;
-	double		pos_y;
-	int			map_x;
-	int			map_y;
-	double		dir_x;
-	double		dir_y;
-	double		delta_x;
-	double		delta_y;
-	double		side_x;
-	double		side_y;
-	int			step_x;
-	int			step_y;
-	int			side;
-}			t_ray;
-
-int	is_wall_cell(t_data *data, int my, int mx)
-{
-	if (my < 0 || my >= data->map.height)
-		return (1);
-	if (mx < 0 || mx >= (int)ft_strlen(data->map.grid[my]))
-		return (1);
-	if (data->map.grid[my][mx] == '1' || data->map.grid[my][mx] == ' ')
-		return (1);
-	return (0);
-}
-
-void	init_step(t_ray *ray)
-{
-	if (ray->dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->side_x = (ray->pos_x - ray->map_x) * ray->delta_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_x = (ray->map_x + 1.0 - ray->pos_x) * ray->delta_x;
-	}
-	if (ray->dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->side_y = (ray->pos_y - ray->map_y) * ray->delta_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_y = (ray->map_y + 1.0 - ray->pos_y) * ray->delta_y;
-	}
-}
+#include "../includes/tools_game.h"
 
 void	dda_loop(t_data *data, t_ray *ray)
 {
@@ -81,17 +29,6 @@ void	dda_loop(t_data *data, t_ray *ray)
 			ray->side = 1;
 		}
 	}
-}
-
-void	init_ray(t_ray *ray, t_data *data, double dir_x, double dir_y)
-{
-	ray->pos_x = data->player.pos_x;
-	ray->pos_y = data->player.pos_y;
-	ray->map_x = (int)ray->pos_x;
-	ray->map_y = (int)ray->pos_y;
-	ray->dir_x = dir_x;
-	ray->dir_y = dir_y;
-	ray->side = 0;
 }
 
 void	init_delta(t_ray *ray)

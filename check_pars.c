@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:28:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 10:56:19 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:30 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 int	check_file_extension(char *filename)
 {

@@ -6,11 +6,11 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 15:12:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/25 10:58:45 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:45:47 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "./includes/cub3d.h"
 
 void	set_north_south(t_data *data, char orientation)
 {
@@ -55,4 +55,22 @@ void	set_player_direction(t_data *data, char orientation)
 		set_north_south(data, orientation);
 	else if (orientation == 'E' || orientation == 'W')
 		set_east_west(data, orientation);
+}
+
+int	parse_map(int fd, t_data *data)
+{
+	char	*line;
+	int		map_started;
+
+	map_started = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (!handle_map_line(data, line, &map_started))
+			return (0);
+		line = get_next_line(fd);
+	}
+	if (data->map.height == 0)
+		return (print_error("No map found"), 0);
+	return (1);
 }
