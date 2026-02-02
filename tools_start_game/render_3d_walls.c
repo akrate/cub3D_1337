@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:08:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/29 15:37:40 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:15:00 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ void	prepare_texture(t_data *data, t_column *c)
 		wall_x = c->hit.hit_x;
 	wall_x -= floor(wall_x);
 	c->tex_x = (int)(wall_x * c->tex->w);
-	if (c->hit.side == 0 && c->rx > 0)
-		c->tex_x = c->tex->w - c->tex_x - 1;
-	if (c->hit.side == 1 && c->ry < 0)
-		c->tex_x = c->tex->w - c->tex_x - 1;
+	c->tex_x = c->tex->w - c->tex_x - 1;
 }
 
 void	draw_wall(t_data *data, t_column *c)

@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 11:28:15 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/29 15:47:48 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:28:25 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,17 @@ void	load_texture(t_data *data, t_img_tex *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(data->mlx.mlx, path, &tex->w, &tex->h);
 	if (!tex->img)
-		print_error(" Error: failed to load texture");
+	{
+		print_error("Error: failed to load texture");
+		ecs(data, 1);
+	}
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_len,
 			&tex->endian);
+	if (!tex->addr)
+	{
+		print_error("Error: failed to load addr");
+		ecs(data, 1);
+	}
 }
 
 void	load_all_textures(t_data *data)

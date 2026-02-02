@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:18:39 by melkhatr          #+#    #+#             */
-/*   Updated: 2026/01/29 15:42:47 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:25:10 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	main(int argc, char **argv)
 		free_garbage(&data.lst_gc_g);
 		return (1);
 	}
-	printf("Map parsed successfully!\n");
 	start_game(&data);
 	free_garbage(&data.lst_gc_g);
 	return (0);

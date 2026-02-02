@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:27:42 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/29 15:57:52 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:27:55 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,22 @@ void	put_pixel_to_img(t_mlx *mlx, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_crosshair(t_data *data)
-{
-	int	cx;
-	int	cy;
-	int	i;
-
-	cx = WIDTH / 2;
-	cy = HEIGHT / 2;
-	i = -6;
-	while (i <= 6)
-	{
-		put_pixel_to_img(&data->mlx, cx + i, cy, 0x00FF0000);
-		i++;
-	}
-	i = -6;
-	while (i <= 6)
-	{
-		put_pixel_to_img(&data->mlx, cx, cy + i, 0x00FF0000);
-		i++;
-	}
-}
-
 void	render_frame(t_data *data)
 {
 	if (data->mlx.img)
 		mlx_destroy_image(data->mlx.mlx, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.mlx, WIDTH, HEIGHT);
 	if (!data->mlx.img)
+	{
 		print_error("mlx_new_image failed");
+		ecs(data, 1);
+	}
 	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bpp,
 			&data->mlx.line_len, &data->mlx.endian);
 	if (!data->mlx.addr)
+	{
 		print_error("mlx_get_data_addr failed");
+		ecs(data, 1);
+	}
 	render_3d_walls(data);
-	draw_crosshair(data);
-	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 }

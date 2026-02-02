@@ -6,7 +6,7 @@
 /*   By: aoussama <aoussama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 10:35:45 by aoussama          #+#    #+#             */
-/*   Updated: 2026/01/29 15:37:35 by aoussama         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:52:50 by aoussama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	move_player(int keycode, t_data *data)
 		move_up_done(keycode, data);
 }
 
-static void	ecs(t_data *game)
+void	ecs(t_data *game, int i)
 {
 	free_garbage(&set_get_data(NULL)->lst_gc_g);
 	free_textures(game);
@@ -65,13 +65,13 @@ static void	ecs(t_data *game)
 		mlx_destroy_display(game->mlx.mlx);
 		free(game->mlx.mlx);
 	}
-	exit(0);
+	exit(i);
 }
 
 int	hook(int keycode, t_data *data)
 {
 	if (keycode == 65307)
-		ecs(data);
+		ecs(data, 0);
 	else if (keycode == 119 || keycode == 115 || keycode == 97
 		|| keycode == 100)
 		move_player(keycode, data);
